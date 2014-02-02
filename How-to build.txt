@@ -1,0 +1,17 @@
+Prerequities:
+-------------
+
+You need GLEW to build the OGL devices installed in GL/
+
+How-to build?
+-------------
+
+ . Go this directory and generate the makefile you want by typing in the console
+ somethink like this line:
+   cmake -G "Unix Makefiles"
+ or
+   cmake -G "Visual Studio 10"
+ 
+ . Some other options can be accessed by launching something like:
+   cmake -i -G "Your generator"
+ 
