@@ -20,7 +20,7 @@ namespace kT
 
 			D3D11RasterizerState(
 				ID3D11Device* device,
-				const RasterizerDesc& desc );
+				const RasterizerStateDesc& desc );
 
 			~D3D11RasterizerState();
 

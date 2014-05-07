@@ -1,11 +1,26 @@
 #include <kT/Graphics/D3D11Device/D3D11InputLayout.hpp>
+#include <kT/Graphics/D3D11Device/D3D11Device.hpp>
 #include <kT/Graphics/D3D11Device/D3D11Format.hpp>
+#include <kT/Graphics/D3D11Device/D3D11Shader.hpp>
 #include <kT/Core/Exceptions.hpp>
 
 #include <D3D11.h>
 
 namespace kT
 {
+	KT_API D3D11InputLayout::D3D11InputLayout(
+		D3D11Device* device,
+		D3D11Shader* shader,
+		const InputLayoutDesc& inputLayoutDesc):
+		D3D11InputLayout(
+			device->GetHandle(),
+			shader->GetShaderByteCode()->GetBufferPointer(),
+			shader->GetShaderByteCode()->GetBufferSize(),
+			inputLayoutDesc
+		)
+	{
+	}
+
     KT_API D3D11InputLayout::D3D11InputLayout(
         ID3D11Device* device,
         const void* shaderCode,

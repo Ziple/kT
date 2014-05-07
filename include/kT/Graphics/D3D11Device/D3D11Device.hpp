@@ -11,11 +11,11 @@
 #include "D3D11InputLayout.hpp"
 #include "D3D11DeviceTypes.hpp"
 
-#include <D3D11.h>
-
 #if defined(KT_DEBUG)
 #include <string>
 #endif
+
+struct ID3D11Device;
 
 namespace kT
 {
@@ -76,7 +76,7 @@ namespace kT
             kT::GraphicsDevice<kTD3D11DeviceTemplateListLineTypes>::ProcessingMethod myProcessingMethod;
 
             D3D11ImmediateContext* myImmediateContext;
-            D3D_FEATURE_LEVEL myFeatureLevel;
+            UINT myFeatureLevel;
     };
 }
 

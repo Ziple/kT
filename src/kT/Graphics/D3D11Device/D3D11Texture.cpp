@@ -1,4 +1,5 @@
 #include <kT/Graphics/D3D11Device/D3D11Texture.hpp>
+#include <kT/Graphics/D3D11Device/D3D11Device.hpp>
 
 #include <kT/Core/Exceptions.hpp>
 #include <kT/Graphics/PixelFormat.hpp>
@@ -8,6 +9,24 @@
 
 namespace kT
 {
+	KT_API D3D11Texture::D3D11Texture(
+		D3D11Device* device,
+		Uint32 bindFlags,
+		PixelFormat::Format format,
+		const kT::Sizeui32& size,
+		const void* texDataPtr,
+		bool generateMipMaps
+		) :
+	D3D11Texture(
+		device->GetHandle(),
+		bindFlags,
+		format,
+		size,
+		texDataPtr,
+		generateMipMaps
+		)
+	{}
+
 	KT_API D3D11Texture::D3D11Texture(
 		ID3D11Device* device,
         Uint32 bindFlags,

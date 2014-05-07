@@ -90,6 +90,14 @@ namespace kT
         }
 
         ID3D10Blob* errors = 0;
+
+		UINT compileFlags = D3D10_SHADER_ENABLE_STRICTNESS;
+#ifndef NDEBUG
+		compileFlags |= D3D10_SHADER_DEBUG | D3D10_SHADER_SKIP_OPTIMIZATION;
+#else
+		compileFlags |= D3D10_SHADER_OPTIMIZATION_LEVEL3;
+#endif
+
         HRESULT hr = D3DCompile( shaderSource,
                     sourceSize,
                     NULL,
@@ -97,7 +105,7 @@ namespace kT
                     NULL,
                     entryPoint,
                     shaderProfileStr.c_str(),
-                    D3D10_SHADER_ENABLE_STRICTNESS,
+                    compileFlags,
                     0,
                     &myShaderByteCode,
                     &errors );

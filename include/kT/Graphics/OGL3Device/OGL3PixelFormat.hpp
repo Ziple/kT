@@ -17,7 +17,7 @@ namespace kT
     {
         public:
 
-            static GLint GetOGL3Format( PixelFormat::Format format );
+            static GLint GetOGL3DataFormat( PixelFormat::Format format );
 
             static GLint GetOGL3InternalFormat( PixelFormat::Format format );
 

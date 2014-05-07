@@ -7,7 +7,7 @@ namespace kT
 {
 	KT_API D3D11RasterizerState::D3D11RasterizerState(
 				ID3D11Device* device,
-				const RasterizerDesc& desc )
+				const RasterizerStateDesc& desc )
 	{
 		D3D11_RASTERIZER_DESC rdesc;
 		rdesc.FillMode = (D3D11_FILL_MODE)desc.fillMode;

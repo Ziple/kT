@@ -17,6 +17,7 @@ struct IDXGISwapChain;
 
 namespace kT
 {
+	class D3D11Device;
 	class D3D11Texture;
 
     class KT_API D3D11SwapChain: public SwapChain,
@@ -24,6 +25,13 @@ namespace kT
                                  protected EventListener<GUIEvent>
     {
         public:
+
+			// doesn't have really support for multisampling
+			D3D11SwapChain(D3D11Device* device,
+				Window* associatedWindow,
+				PixelFormat::Format format,
+				bool doubleBuffer,
+				Uint32 multisamplingLevel);
 
 			// doesn't have really support for multisampling
             D3D11SwapChain( ID3D11Device* device,

@@ -26,9 +26,13 @@ namespace kT
 		HRESULT hr = 0;
 		for( size_t i = 0; i < 3; i++ )
 		{
-			hr = D3D11CreateDevice( NULL, driverTypes[i], NULL, flags, NULL, 0, D3D11_SDK_VERSION, &myDevice, &myFeatureLevel, &imDev );
+			D3D_FEATURE_LEVEL lvl;
+
+			hr = D3D11CreateDevice( NULL, driverTypes[i], NULL, flags, NULL, 0, D3D11_SDK_VERSION, &myDevice, &lvl, &imDev );
 			if( !FAILED(hr) )
 				break;
+
+			myFeatureLevel = lvl;
 		}
 
         if( FAILED(hr) )

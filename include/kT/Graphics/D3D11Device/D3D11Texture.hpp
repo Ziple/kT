@@ -22,9 +22,20 @@ struct ID3D11DepthStencilView;
 
 namespace kT
 {
+	class D3D11Device;
+
     class KT_API D3D11Texture: public D3D11ShaderResource
 	{
 		public:
+
+			D3D11Texture(
+				D3D11Device* device,
+				Uint32 bindFlags,
+				PixelFormat::Format format,
+				const kT::Sizeui32& size,
+				const void* texDataPtr = 0,
+				bool generateMipMapsCaps = true
+				);
 
 			D3D11Texture(
 				ID3D11Device* device,

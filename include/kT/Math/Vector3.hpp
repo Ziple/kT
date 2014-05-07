@@ -9,6 +9,7 @@
 
 #include <kT/Core/Types.hpp>
 #include "Helpers.hpp"
+#include "Vector4.hpp"
 
 namespace kT
 {
@@ -32,6 +33,16 @@ namespace kT
          * \brief Copy constructor.
          */
         Vector3( const Vector3< T >& other );
+
+		/**
+		 * \brief Converts to a point in homogeneous coordinates.
+		 */
+		Vector4<T> AsPoint4() const;
+
+		/**
+		 * \brief Converts to a vector in homogeneous coordinates.
+		 */
+		Vector4<T> AsVector4() const;
 
         /**
          * \brief Are-equal operator.

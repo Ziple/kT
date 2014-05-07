@@ -1,4 +1,5 @@
 #include <kT/Graphics/D3D11Device/D3D11GraphicsContext.hpp>
+#include <kT/Graphics/D3D11Device/D3D11BlendState.hpp>
 #include <kT/Graphics/D3D11Device/D3D11RasterizerState.hpp>
 #include <kT/Graphics/D3D11Device/D3D11SamplerState.hpp>
 #include <kT/Graphics/D3D11Device/D3D11InputLayout.hpp>
@@ -156,6 +157,11 @@ namespace kT
             (renderTargets != NULL) ? tempBuff : NULL,
             (depthStencilTarget != NULL) ? depthStencilTarget->GetDepthStencilView() : NULL );
     }
+
+	void KT_API D3D11GraphicsContext::OMSetBlendState(D3D11BlendState* state, const Vector4f32& blendFactors, Uint32 sampleMask)
+	{
+		myHandle->OMSetBlendState(state->GetHandle(), &blendFactors.x, sampleMask);
+	}
 
     void KT_API D3D11GraphicsContext::Dispatch( Uint32 groupCountX, Uint32 groupCountY, Uint32 groupCountZ )
     {

@@ -1,4 +1,5 @@
 #include <kT/Graphics/D3D11Device/D3D11SwapChain.hpp>
+#include <kT/Graphics/D3D11Device/D3D11Device.hpp>
 #include <kT/Graphics/D3D11Device/D3D11Texture.hpp>
 #include <kT/Graphics/D3D11Device/D3D11Format.hpp>
 #include <kT/Core/Exceptions.hpp>
@@ -10,6 +11,21 @@
 
 namespace kT
 {
+	// Doens't support multisampling yet.
+	KT_API D3D11SwapChain::D3D11SwapChain(D3D11Device* device,
+		Window* window,
+		PixelFormat::Format format,
+		bool doublebuffer,
+		Uint32 multisamplingLevel):
+	D3D11SwapChain(
+		device->GetHandle(),
+		window,
+		format,
+		doublebuffer,
+		multisamplingLevel
+	)
+	{}
+
     // Doens't support multisampling yet.
     KT_API D3D11SwapChain::D3D11SwapChain( ID3D11Device* device,
                                     Window* window,

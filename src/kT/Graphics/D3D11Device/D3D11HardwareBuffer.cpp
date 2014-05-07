@@ -1,4 +1,5 @@
 #include <kT/Graphics/D3D11Device/D3D11HardwareBuffer.hpp>
+#include <kT/Graphics/D3D11Device/D3D11Device.hpp>
 #include <kT/Graphics/D3D11Device/D3D11ImmediateContext.hpp>
 #include <kT/Core/Exceptions.hpp>
 
@@ -6,6 +7,25 @@
 
 namespace kT
 {
+	KT_API D3D11HardwareBuffer::D3D11HardwareBuffer(
+		D3D11Device* device,
+		Uint32 bindFlags,
+		Usage usage,
+		Uint32 cpuAccessRight,
+		Uint32 elementSize,
+		Uint32 numElements,
+		const void* dataPtr):
+	D3D11HardwareBuffer(
+		device->GetHandle(),
+		bindFlags,
+		usage,
+		cpuAccessRight,
+		elementSize,
+		numElements,
+		dataPtr
+		)
+	{}
+
     KT_API D3D11HardwareBuffer::D3D11HardwareBuffer(
         ID3D11Device* device,
         Uint32 bindFlags,

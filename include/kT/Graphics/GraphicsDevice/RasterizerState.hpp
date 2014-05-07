@@ -1,11 +1,12 @@
 #ifndef __KTRASTERIZERSTATE_HPP__
 #define __KTRASTERIZERSTATE_HPP__
 
+#include <kT/Core/Build.hpp>
 #include <kT/Core/Types.hpp>
 
 namespace kT
 {
-	struct KT_API RasterizerDesc {
+	struct KT_API RasterizerStateDesc {
 
 		enum FillMode{
 			FillWireFrame = 2,
@@ -29,7 +30,7 @@ namespace kT
 		bool            multisampleEnable;
 		bool            antialiasedLineEnable;
 
-		RasterizerDesc(
+		RasterizerStateDesc(
 			FillMode fillMode_ = FillSolid,
 			CullMode cullMode_ = CullBack,
 			bool frontCounterClockwise_ = false,

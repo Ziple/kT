@@ -4,7 +4,7 @@
 
 namespace kT
 {
-    GLint OGL3Format::GetOGL3Format( PixelFormat::Format format )
+    GLint OGL3Format::GetOGL3InternalFormat( PixelFormat::Format format )
     {
         static GLint lookupTable[] = {
             0,
@@ -58,7 +58,7 @@ namespace kT
         return lookupTable[ format ];
     }
 
-    GLint OGL3Format::GetOGL3InternalFormat( PixelFormat::Format format )
+    GLint OGL3Format::GetOGL3DataFormat( PixelFormat::Format format )
     {
         static GLenum lookupTable[] = {
             0,
@@ -123,7 +123,7 @@ namespace kT
             GL_UNSIGNED_INT,
             GL_HALF_FLOAT,
             GL_FLOAT,
-            GL_DEPTH
+            GL_DEPTH_COMPONENT
         };
 
         return lookupTable[ comp ];

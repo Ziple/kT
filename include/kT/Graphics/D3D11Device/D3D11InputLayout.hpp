@@ -14,10 +14,18 @@ struct ID3D11InputLayout;
 
 namespace kT
 {
+	class D3D11Shader;
+	class D3D11Device;
+
     class KT_API D3D11InputLayout: public InputLayout,
                                    public NonCopyable
     {
         public:
+
+			D3D11InputLayout(
+				D3D11Device* device,
+				D3D11Shader* shader,
+				const InputLayoutDesc& inputDesc);
 
             D3D11InputLayout(
                 ID3D11Device* device,

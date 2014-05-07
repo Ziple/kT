@@ -19,6 +19,7 @@ namespace kT
     struct ViewportDesc;
 
 	class D3D11HardwareBuffer;
+	class D3D11BlendState;
 	class D3D11RasterizerState;
     class D3D11SamplerState;
 	class D3D11InputLayout;
@@ -88,6 +89,8 @@ namespace kT
 			void IASetPrimitiveTopology( kT::PrimitiveTopology::Topology topology );
 
             void OMSetRenderTargets( Uint32 num, kT::D3D11Texture* const* renderTargets, kT::D3D11Texture* depthStencilTarget );
+
+			void OMSetBlendState( D3D11BlendState* state, const Vector4f32& blendFactors = Vector4f32(1.0f,1.0f,1.0f,1.0f), Uint32 sampleMask = 0xFFFFFFFF );
 
             void Dispatch( Uint32 groupCountX, Uint32 groupCountY, Uint32 groupCountZ );
 

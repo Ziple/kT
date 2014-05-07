@@ -18,6 +18,7 @@ struct ID3D11Buffer;
 
 namespace kT
 {
+	class D3D11Device;
 	class D3D11ImmediateContext;
 
     class KT_API D3D11HardwareBuffer: public kT::HardwareBuffer< kTD3D11DeviceTemplateListLineTypes >,
@@ -48,6 +49,14 @@ namespace kT
                 return data;
             }
 #endif
+
+			D3D11HardwareBuffer(D3D11Device* device,
+				Uint32 bindFlags,
+				Usage usage,
+				Uint32 cpuAccessRight,
+				Uint32 elementSize,
+				Uint32 numElements,
+				const void* data);
 
             D3D11HardwareBuffer( ID3D11Device* device,
                                   Uint32 bindFlags,

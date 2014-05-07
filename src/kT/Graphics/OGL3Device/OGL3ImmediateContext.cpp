@@ -7,6 +7,7 @@
 
 #include <kT/Graphics/OGL3Device/OGL.hpp>
 
+#include <cassert>
 #include <cstring>
 
 namespace kT
@@ -25,17 +26,17 @@ namespace kT
         memset( myStrides, 0, sizeof(Uint32)*16 );
         memset( myOffsets, 0, sizeof(Uint32)*16 );
 
-        glGenFramebuffers( 1, &myFBO );
+		ktOGL3Check( glGenFramebuffers(1, &myFBO) );
     }
 
     KT_API OGL3ImmediateContext::~OGL3ImmediateContext()
     {
-        glDeleteFramebuffers( 1, &myFBO );
+		ktOGL3Check( glDeleteFramebuffers(1, &myFBO) );
     }
 
     void KT_API OGL3ImmediateContext::SetProgram( OGL3Program* prog )
     {
-        glUseProgram( prog->GetProgramID() );
+		ktOGL3Check( glUseProgram(prog->GetProgramID()) );
     }
 
     void KT_API OGL3ImmediateContext::DrawIndexed( Uint32 indexCount, Uint32 startIndex, Int32 baseVertexLocation )
@@ -213,6 +214,8 @@ namespace kT
                     0
                 )
             );
+
+		assert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
 
         static GLenum buffers[] = {
             GL_COLOR_ATTACHMENT0,

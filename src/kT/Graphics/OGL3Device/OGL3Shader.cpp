@@ -1,4 +1,5 @@
 #include <kT/Graphics/OGL3Device/OGL3Shader.hpp>
+#include <kT/Graphics/OGL3Device/OGL3Check.hpp>
 
 #include <kT/Core/File.hpp>
 
@@ -52,35 +53,35 @@ namespace kT
             "#version 420 core\n"
         };
 
-        myShaderGLID = glCreateShader( stype );
+		myShaderGLID = ktOGL3Check( glCreateShader(stype) );
 
         const GLchar* srcs[] = { profileLookupTable[ profile ], reinterpret_cast<GLchar*>(src)};
 
-        glShaderSource( myShaderGLID, 2, &srcs[0], 0 );
+		ktOGL3Check( glShaderSource(myShaderGLID, 2, &srcs[0], 0) );
 
-        glCompileShader(myShaderGLID);
+		ktOGL3Check( glCompileShader(myShaderGLID) );
     }
 
     KT_API OGL3Shader::~OGL3Shader()
     {
-        glDeleteShader( myShaderGLID );
+		ktOGL3Check(glDeleteShader(myShaderGLID) );
     }
 
     bool KT_API OGL3Shader::CompilationPassed()
     {
         GLint val;
-        glGetShaderiv( myShaderGLID, GL_COMPILE_STATUS, &val );
+		ktOGL3Check( glGetShaderiv(myShaderGLID, GL_COMPILE_STATUS, &val) );
         return val == GL_TRUE;
     }
 
     std::string KT_API OGL3Shader::GetErrorLog()
     {
         GLint val;
-        glGetShaderiv( myShaderGLID, GL_INFO_LOG_LENGTH, &val );
+		ktOGL3Check( glGetShaderiv(myShaderGLID, GL_INFO_LOG_LENGTH, &val) );
 
 
         GLchar *s = new GLchar[val+1];
-        glGetShaderInfoLog( myShaderGLID, val, 0, s );
+		ktOGL3Check( glGetShaderInfoLog(myShaderGLID, val, 0, s) );
         s[val] = 0;
 
         std::string str = s;
@@ -92,10 +93,10 @@ namespace kT
     KT_API OGL3Program::OGL3Program( const OGL3Shader* vs, const OGL3Shader* ps ):
         myProgramID( 0 )
     {
-        myProgramID = glCreateProgram();
-        glAttachShader( myProgramID, vs->GetHandle() );
-        glAttachShader( myProgramID, ps->GetHandle() );
-        glLinkProgram( myProgramID );
+		myProgramID = ktOGL3Check( glCreateProgram() );
+		ktOGL3Check( glAttachShader(myProgramID, vs->GetHandle()) );
+		ktOGL3Check( glAttachShader(myProgramID, ps->GetHandle()) );
+		ktOGL3Check( glLinkProgram(myProgramID) );
 
         BuildUniformCache();
         BuildVertexAttribCache();
@@ -103,23 +104,23 @@ namespace kT
 
     KT_API OGL3Program::~OGL3Program()
     {
-        glDeleteProgram( myProgramID );
+		ktOGL3Check( glDeleteProgram(myProgramID) );
     }
 
     bool KT_API OGL3Program::LinkPassed()
     {
         GLint val;
-        glGetProgramiv( myProgramID, GL_LINK_STATUS, &val );
+		ktOGL3Check( glGetProgramiv(myProgramID, GL_LINK_STATUS, &val) );
         return val == GL_TRUE;
     }
 
     std::string KT_API OGL3Program::GetErrorLog()
     {
         GLint val;
-        glGetProgramiv( myProgramID, GL_INFO_LOG_LENGTH, &val );
+		ktOGL3Check( glGetProgramiv(myProgramID, GL_INFO_LOG_LENGTH, &val) );
 
         GLchar *s = new GLchar[val+1];
-        glGetProgramInfoLog( myProgramID, val, 0, s );
+		ktOGL3Check( glGetProgramInfoLog(myProgramID, val, 0, s) );
         s[val] = 0;
 
         std::string str = s;
@@ -159,10 +160,10 @@ namespace kT
     void KT_API OGL3Program::BuildUniformCache()
     {
         GLint activeUniforms = 0;
-        glGetProgramiv( myProgramID, GL_ACTIVE_UNIFORMS, &activeUniforms );
+		ktOGL3Check( glGetProgramiv(myProgramID, GL_ACTIVE_UNIFORMS, &activeUniforms) );
 
         GLint maxNameLength  = 0;
-        glGetProgramiv( myProgramID, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxNameLength );
+		ktOGL3Check( glGetProgramiv(myProgramID, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxNameLength));
         GLchar* s = new GLchar[maxNameLength];
 
         for( size_t i = 0; i < (size_t)activeUniforms; i++ )
@@ -170,7 +171,7 @@ namespace kT
             GLsizei length;
  	        GLint size;
  	        GLenum type;
-            glGetActiveUniform( myProgramID, i, maxNameLength, &length, &size, &type, s );
+			ktOGL3Check( glGetActiveUniform(myProgramID, i, maxNameLength, &length, &size, &type, s) );
             myUniformCache[ std::string(s) ] = i;
         }
 
@@ -179,10 +180,10 @@ namespace kT
     void KT_API OGL3Program::BuildVertexAttribCache()
     {
         GLint activeAttributes = 0;
-        glGetProgramiv( myProgramID, GL_ACTIVE_ATTRIBUTES, &activeAttributes );
+		ktOGL3Check( glGetProgramiv(myProgramID, GL_ACTIVE_ATTRIBUTES, &activeAttributes) );
 
         GLint maxNameLength  = 0;
-        glGetProgramiv( myProgramID, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxNameLength );
+		ktOGL3Check( glGetProgramiv(myProgramID, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxNameLength) );
         GLchar* s = new GLchar[maxNameLength];
 
         for( size_t i = 0; i < (size_t)activeAttributes; i++ )
@@ -190,7 +191,7 @@ namespace kT
             GLsizei length;
  	        GLint size;
  	        GLenum type;
-            glGetActiveAttrib( myProgramID, i, maxNameLength, &length, &size, &type, s );
+			ktOGL3Check( glGetActiveAttrib(myProgramID, i, maxNameLength, &length, &size, &type, s) );
             myVertexAttribCache[ std::string(s) ] = i;
         }
 

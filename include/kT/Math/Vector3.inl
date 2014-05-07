@@ -18,6 +18,18 @@ namespace kT
     {
     }
 
+	template< typename T >
+	Vector4<T> Vector3< T >::AsPoint4() const
+	{
+		return Vector4< T >(x, y, z, 1.0f);
+	}
+
+	template< typename T >
+	Vector4<T> Vector3< T >::AsVector4() const
+	{
+		return Vector4< T >(x, y, z, 0.0f);
+	}
+
     template< typename T >
     bool Vector3< T >::operator==( const Vector3< T >& o ) const
     {
