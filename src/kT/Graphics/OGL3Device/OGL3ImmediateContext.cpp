@@ -36,7 +36,7 @@ namespace kT
 
     void KT_API OGL3ImmediateContext::SetProgram( OGL3Program* prog )
     {
-		ktOGL3Check( glUseProgram(prog->GetProgramID()) );
+        ktOGL3Check( glUseProgram( prog != NULL ? prog->GetProgramID() : 0 ) );
     }
 
     void KT_API OGL3ImmediateContext::DrawIndexed( Uint32 indexCount, Uint32 startIndex, Int32 baseVertexLocation )
@@ -125,7 +125,7 @@ namespace kT
         }
 
         ktOGL3Check(
-            glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indexBuffer->GetHandle() )
+            glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, (indexBuffer != 0) ? indexBuffer->GetHandle() : 0 )
         );
     }
 
@@ -146,10 +146,13 @@ namespace kT
         {
             const OGL3HardwareBuffer* buff = myVertexBuffers[ elements[i].inputSlot ];
 
-            if( buff != 0 )
-            {
+            if( buff != 0 ){
                 ktOGL3Check(
                     glBindBuffer( GL_ARRAY_BUFFER, buff->GetHandle() )
+                );
+
+                ktOGL3Check(
+                    glEnableVertexAttribArray( elements[i].attribIndex )
                 );
 
                 ktOGL3Check(
@@ -162,12 +165,18 @@ namespace kT
                     (void*)( myOffsets[ elements[i].inputSlot ] + elements[i].offset ) )
                 );
 
-                ktOGL3Check(
-                    glEnableVertexAttribArray( elements[i].attribIndex )
-                );
-
                 if( elements[i].inputClass == kT::InputElementClass::PerInstance )
                     ktOGL3Check( glVertexAttribDivisorARB( elements[i].attribIndex, elements[i].stepRate ) );
+            }else{
+                ktOGL3Check(
+                    glBindBuffer( GL_ARRAY_BUFFER, 0 )
+                );
+
+                ktOGL3Check( glVertexAttribDivisorARB( elements[i].attribIndex, 0 ) );
+
+                ktOGL3Check(
+                    glDisableVertexAttribArray( elements[i].attribIndex )
+                );
             }
         }
     }
@@ -175,13 +184,23 @@ namespace kT
     void KT_API OGL3ImmediateContext::IASetPrimitiveTopology( kT::PrimitiveTopology::Topology topology )
     {
         static GLenum look[] = {
+            0,
             GL_POINTS,
+            GL_LINES,
+            GL_LINE_STRIP,
             GL_TRIANGLES,
             GL_TRIANGLE_STRIP,
-            GL_LINES,
-            GL_LINE_STRIP
+            0,
+            0,
+            0,
+            0,
+            GL_LINES_ADJACENCY,
+            GL_LINE_STRIP_ADJACENCY,
+            GL_TRIANGLES_ADJACENCY,
+            GL_TRIANGLE_STRIP_ADJACENCY
         };
-        myTopology = look[ topology ];
+
+        myTopology = look[ static_cast<size_t>(topology) ];
     }
 
     void KT_API OGL3ImmediateContext::OMSetRenderTargets(

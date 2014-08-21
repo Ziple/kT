@@ -47,6 +47,7 @@ namespace kT
 		ktOGL3Check( glGenBuffers(1, &myBufferID) );
 		ktOGL3Check( glBindBuffer(myTarget, myBufferID) );
 		ktOGL3Check( glBufferData(myTarget, elementSize*numElements, data, usageLookupTable[usage]) );
+        ktOGL3Check( glBindBuffer(myTarget, 0) );
     }
 
     KT_API OGL3HardwareBuffer::~OGL3HardwareBuffer()
@@ -62,6 +63,7 @@ namespace kT
     {
 		ktOGL3Check( glBindBuffer(GL_COPY_READ_BUFFER, myBufferID) );
 		ktOGL3Check( glGetBufferSubData(GL_COPY_READ_BUFFER, offset, size, dest) );
+        ktOGL3Check( glBindBuffer(GL_COPY_READ_BUFFER, 0) );
     }
 
     void KT_API OGL3HardwareBuffer::WriteData(
@@ -72,6 +74,7 @@ namespace kT
     {
 		ktOGL3Check( glBindBuffer(GL_COPY_WRITE_BUFFER, myBufferID) );
 		ktOGL3Check( glBufferSubData(GL_COPY_WRITE_BUFFER, offset, size, src) );
+        ktOGL3Check( glBindBuffer(GL_COPY_WRITE_BUFFER, 0) );
     }
 
     void KT_API OGL3HardwareBuffer::CopyData(
@@ -84,6 +87,8 @@ namespace kT
 		ktOGL3Check( glBindBuffer(GL_COPY_READ_BUFFER, src->GetHandle()) );
 		ktOGL3Check( glBindBuffer(GL_COPY_WRITE_BUFFER, myBufferID) );
 		ktOGL3Check( glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, srcOffset, offset, size) );
+        ktOGL3Check( glBindBuffer(GL_COPY_READ_BUFFER, 0) );
+		ktOGL3Check( glBindBuffer(GL_COPY_WRITE_BUFFER, 0) );
     }
 
     void KT_API OGL3HardwareBuffer::CopyBuffer(
@@ -111,14 +116,17 @@ namespace kT
         access |= (lockMode & DiscardBufferLock) ? GL_MAP_INVALIDATE_BUFFER_BIT : 0;
         access |= (lockMode & NoOverwriteLock) ? GL_MAP_UNSYNCHRONIZED_BIT : 0;
 
-		ktOGL3Check( glBindBuffer(GL_COPY_READ_BUFFER, myBufferID) );
-		return ktOGL3Check( glMapBufferRange(GL_COPY_READ_BUFFER, offset, size, access) );
+		ktOGL3Check( glBindBuffer(myTarget, myBufferID) );
+		void* p = ktOGL3Check( glMapBufferRange(myTarget, offset, size, access) );
+        ktOGL3Check( glBindBuffer(myTarget, 0) );
+        return p;
     }
 
     void KT_API OGL3HardwareBuffer::Unmap( OGL3ImmediateContext* ctx )
     {
-		ktOGL3Check( glBindBuffer(GL_COPY_READ_BUFFER, myBufferID) );
-		ktOGL3Check( glUnmapBuffer(GL_COPY_READ_BUFFER) );
+		ktOGL3Check( glBindBuffer(myTarget, myBufferID) );
+		ktOGL3Check( glUnmapBuffer(myTarget) );
+        ktOGL3Check( glBindBuffer(myTarget, 0) );
     }
 
     KT_API OGL3HardwareBuffer* OGL3HardwareBuffer::GetBufferCopy( OGL3ImmediateContext* ctx )

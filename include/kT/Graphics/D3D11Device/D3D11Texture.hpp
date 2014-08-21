@@ -66,6 +66,15 @@ namespace kT
 			
 		protected:
 
+            void CreateTexture(
+				ID3D11Device* device,
+                Uint32 bindFlags,
+                PixelFormat::Format format,
+				const kT::Sizeui32& size,
+				const void* texDataPtr = 0,
+				bool generateMipMapsCaps = true
+			);
+
             void CreateViews(
 				ID3D11Device* device,
 				ID3D11Texture2D* texhandle

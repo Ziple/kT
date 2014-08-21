@@ -43,6 +43,12 @@ namespace kT
 
         private:
 
+            void CreateLayout(
+                ID3D11Device* device,
+                const void* shaderCode,
+                size_t shaderCodeSize,
+                const InputLayoutDesc& inputDesc);
+
             ID3D11InputLayout* myInputLayout;
     };
 }

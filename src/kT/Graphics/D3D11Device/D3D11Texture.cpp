@@ -16,16 +16,13 @@ namespace kT
 		const kT::Sizeui32& size,
 		const void* texDataPtr,
 		bool generateMipMaps
-		) :
-	D3D11Texture(
-		device->GetHandle(),
-		bindFlags,
-		format,
-		size,
-		texDataPtr,
-		generateMipMaps
-		)
-	{}
+		):
+	 myRenderTargetView( 0 ),
+	 myHandle( 0 ),
+	 myDepthStencilView( 0 )
+	{
+        CreateTexture( device->GetHandle(), bindFlags, format, size, texDataPtr, generateMipMaps );
+	}
 
 	KT_API D3D11Texture::D3D11Texture(
 		ID3D11Device* device,
@@ -39,59 +36,7 @@ namespace kT
 	 myHandle( 0 ),
 	 myDepthStencilView( 0 )
 	{
-		D3D11_TEXTURE2D_DESC texDesc;
-		texDesc.Width = size.Width;
-		texDesc.Height = size.Height;
-		texDesc.MipLevels = generateMipMaps ? 0 : 1;
-		texDesc.ArraySize = 1;
-		texDesc.Format = D3D11Format::GetDXGIFormat( format );
-		texDesc.SampleDesc.Count = 1;
-		texDesc.SampleDesc.Quality = 0;
-		texDesc.Usage = D3D11_USAGE_DEFAULT;
-		texDesc.BindFlags = 0;
-		
-		if( ((bindFlags & Texture::ShaderInput) != 0 )
-			|| (generateMipMaps == true) )
-			texDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-		if( ((bindFlags & Texture::RenderTarget) != 0)
-			|| (generateMipMaps == true) )
-			texDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
-		if( (bindFlags & Texture::DepthStencilBuffer) != 0 )
-			texDesc.BindFlags |= D3D11_BIND_DEPTH_STENCIL;
-
-		texDesc.CPUAccessFlags = 0;
-		texDesc.MiscFlags = generateMipMaps? D3D11_RESOURCE_MISC_GENERATE_MIPS : 0;
-
-		size_t formatsize = PixelUtility::GetPixelFormatDescriptor(format).GetSize();
-		D3D11_SUBRESOURCE_DATA data;
-		data.pSysMem = texDataPtr;
-		data.SysMemPitch = size.Width * formatsize;
-		data.SysMemSlicePitch = 0;
-		
-
-		HRESULT hr = device->CreateTexture2D( &texDesc, (generateMipMaps || (texDataPtr == 0))? 0 : &data, &myHandle );
-		if( FAILED( hr ) )
-			kTLaunchException( kT::Exception, "Failed to create the texture" );
-
-		// We provide the initial data if we generate the mipmaps.
-		if( generateMipMaps )
-		{
-			ID3D11DeviceContext* imContext;
-			device->GetImmediateContext(&imContext);
-			D3D11_BOX box;
-			box.left = 0;
-			box.top = 0;
-			box.bottom = size.Height;
-			box.right = size.Width;
-			box.front = 0;
-			box.back = 1;
-
-			imContext->UpdateSubresource( myHandle, 0, &box, texDataPtr, size.Width * formatsize, 0 );
-			imContext->Release();
-		}
-
-		// We then create the views and if necessary, the mipmaps
-		CreateViews( device, myHandle );
+        CreateTexture( device, bindFlags, format, size, texDataPtr, generateMipMaps );
 	}
 
 	KT_API D3D11Texture::D3D11Texture(
@@ -185,4 +130,68 @@ namespace kT
         D3D11ShaderResource::SetName( name + std::string(" SRV") );
     }
 #endif
+
+    void KT_API D3D11Texture::CreateTexture(
+		ID3D11Device* device,
+        Uint32 bindFlags,
+        PixelFormat::Format format,
+		const kT::Sizeui32& size,
+		const void* texDataPtr,
+		bool generateMipMaps
+		)
+	{
+		D3D11_TEXTURE2D_DESC texDesc;
+		texDesc.Width = size.Width;
+		texDesc.Height = size.Height;
+		texDesc.MipLevels = generateMipMaps ? 0 : 1;
+		texDesc.ArraySize = 1;
+		texDesc.Format = D3D11Format::GetDXGIFormat( format );
+		texDesc.SampleDesc.Count = 1;
+		texDesc.SampleDesc.Quality = 0;
+		texDesc.Usage = D3D11_USAGE_DEFAULT;
+		texDesc.BindFlags = 0;
+		
+		if( ((bindFlags & Texture::ShaderInput) != 0 )
+			|| (generateMipMaps == true) )
+			texDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+		if( ((bindFlags & Texture::RenderTarget) != 0)
+			|| (generateMipMaps == true) )
+			texDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
+		if( (bindFlags & Texture::DepthStencilBuffer) != 0 )
+			texDesc.BindFlags |= D3D11_BIND_DEPTH_STENCIL;
+
+		texDesc.CPUAccessFlags = 0;
+		texDesc.MiscFlags = generateMipMaps? D3D11_RESOURCE_MISC_GENERATE_MIPS : 0;
+
+		size_t formatsize = PixelUtility::GetPixelFormatDescriptor(format).GetSize();
+		D3D11_SUBRESOURCE_DATA data;
+		data.pSysMem = texDataPtr;
+		data.SysMemPitch = size.Width * formatsize;
+		data.SysMemSlicePitch = 0;
+		
+
+		HRESULT hr = device->CreateTexture2D( &texDesc, (generateMipMaps || (texDataPtr == 0))? 0 : &data, &myHandle );
+		if( FAILED( hr ) )
+			kTLaunchException( kT::Exception, "Failed to create the texture" );
+
+		// We provide the initial data if we generate the mipmaps.
+		if( generateMipMaps )
+		{
+			ID3D11DeviceContext* imContext;
+			device->GetImmediateContext(&imContext);
+			D3D11_BOX box;
+			box.left = 0;
+			box.top = 0;
+			box.bottom = size.Height;
+			box.right = size.Width;
+			box.front = 0;
+			box.back = 1;
+
+			imContext->UpdateSubresource( myHandle, 0, &box, texDataPtr, size.Width * formatsize, 0 );
+			imContext->Release();
+		}
+
+		// We then create the views and if necessary, the mipmaps
+		CreateViews( device, myHandle );
+	}
 }

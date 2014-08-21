@@ -4,6 +4,8 @@
 
 #include <kT/Core/Win/WinLibrary.hpp>
 
+#include <string>
+
 namespace kT
 {
     KT_API WinLibrary::WinLibrary():
@@ -22,9 +24,7 @@ namespace kT
     {
         char* outStr = 0;
 
-        outStr = strcpy( outStr, filename );
-
-        myIsLoaded = ( myLibraryModule = LoadLibraryA( strcat( outStr, ".dll" ) ) ) ? true : false;
+        myIsLoaded = ( myLibraryModule = LoadLibraryA( filename ) ) ? true : false;
         return myIsLoaded;
     }
 

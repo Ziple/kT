@@ -15,16 +15,11 @@ namespace kT
 		Uint32 elementSize,
 		Uint32 numElements,
 		const void* dataPtr):
-	D3D11HardwareBuffer(
-		device->GetHandle(),
-		bindFlags,
-		usage,
-		cpuAccessRight,
-		elementSize,
-		numElements,
-		dataPtr
-		)
-	{}
+    myDevice( device->GetHandle() ),
+	 kT::D3D11HardwareBuffer::Base( bindFlags, usage, cpuAccessRight, elementSize, numElements ) 
+	{
+        CreateBuffer( device->GetHandle(), bindFlags, usage, cpuAccessRight, elementSize, numElements, dataPtr );
+    }
 
     KT_API D3D11HardwareBuffer::D3D11HardwareBuffer(
         ID3D11Device* device,
@@ -37,87 +32,7 @@ namespace kT
 	 myDevice( device ),
 	 kT::D3D11HardwareBuffer::Base( bindFlags, usage, cpuAccessRight, elementSize, numElements ) 
     {
-            D3D11_USAGE bufferUsage[] = 
-            {
-                D3D11_USAGE_IMMUTABLE,
-                D3D11_USAGE_DEFAULT,
-                D3D11_USAGE_DYNAMIC,
-				D3D11_USAGE_STAGING,
-            };
-
-            UINT cpuAccessFlag[] =
-            {
-                0,
-                D3D11_CPU_ACCESS_READ,
-                D3D11_CPU_ACCESS_WRITE,
-                D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE,
-            };
-
-        D3D11_SUBRESOURCE_DATA data;
-        data.pSysMem = dataPtr;
-        data.SysMemPitch = 0;
-        data.SysMemSlicePitch = 0;
-
-        D3D11_BUFFER_DESC bd;
-        bd.BindFlags = 0;
-        bd.CPUAccessFlags = cpuAccessFlag[ cpuAccessRight ];
-        bd.MiscFlags = 0;
-        bd.ByteWidth = mySize;
-        bd.StructureByteStride = elementSize;
-
-        bd.Usage = bufferUsage[ usage ];
-		if( usage != kT::D3D11HardwareBuffer::StagingBufferUsage )
-        {
-            if( (bindFlags & IndexBuffer) != 0 )
-			    bd.BindFlags |= D3D11_BIND_INDEX_BUFFER;
-            if( (bindFlags & VertexBuffer) != 0 )
-			    bd.BindFlags |= D3D11_BIND_VERTEX_BUFFER;
-            if( (bindFlags & ConstantBuffer) != 0 )
-			    bd.BindFlags |= D3D11_BIND_CONSTANT_BUFFER;
-            if( (bindFlags & ShaderResource) != 0 )
-            {
-			    bd.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-                bd.MiscFlags |= D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-            }
-            if( (bindFlags & StreamOutput) != 0 )
-                bd.BindFlags |= D3D11_BIND_STREAM_OUTPUT;
-            if( (bindFlags & UnorderedAccess) != 0 )
-            {
-                bd.BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
-                bd.MiscFlags |= D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-            }
-            if( (bindFlags & ArgumentBuffer) != 0 )
-            {
-                bd.MiscFlags |= D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS;
-            }
-        }
-
-        HRESULT hr = device->CreateBuffer( &bd, dataPtr != NULL ? &data : NULL, &myBuffer );
-        if( FAILED(hr) )
-            kTLaunchException( kT::Exception, "Failed to create the buffer" );
-
-        if( (bindFlags & ShaderResource) != 0 )
-        {
-            D3D11_SHADER_RESOURCE_VIEW_DESC resDesc;
-            resDesc.Format = DXGI_FORMAT_UNKNOWN;
-            resDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
-            resDesc.Buffer.FirstElement = 0;
-            resDesc.Buffer.NumElements = numElements;
-
-            D3D11ShaderResource::CreateShaderResourceView( device, myBuffer, &resDesc );
-        }
-
-        if( (bindFlags & UnorderedAccess) != 0 )
-        {
-            D3D11_UNORDERED_ACCESS_VIEW_DESC resDesc;
-            resDesc.Format = DXGI_FORMAT_UNKNOWN;
-            resDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
-            resDesc.Buffer.FirstElement = 0;
-            resDesc.Buffer.NumElements = numElements;
-            resDesc.Buffer.Flags = 0;
-
-            D3D11UnorderedAccessResource::CreateUnorderedAccessView( device, myBuffer, &resDesc );
-        }
+        CreateBuffer( device, bindFlags, usage, cpuAccessRight, elementSize, numElements, dataPtr );
     }
 
     KT_API D3D11HardwareBuffer::~D3D11HardwareBuffer()
@@ -259,4 +174,96 @@ namespace kT
         D3D11UnorderedAccessResource::SetName( name + std::string(" UAV") );
     }
 #endif
+
+    void KT_API D3D11HardwareBuffer::CreateBuffer(
+        ID3D11Device* device,
+        Uint32 bindFlags,
+        Usage usage,
+        Uint32 cpuAccessRight,
+        Uint32 elementSize,
+        Uint32 numElements,
+        const void* dataPtr )
+    {
+        D3D11_USAGE bufferUsage[] = 
+        {
+            D3D11_USAGE_IMMUTABLE,
+            D3D11_USAGE_DEFAULT,
+            D3D11_USAGE_DYNAMIC,
+			D3D11_USAGE_STAGING,
+        };
+
+        UINT cpuAccessFlag[] =
+        {
+            0,
+            D3D11_CPU_ACCESS_READ,
+            D3D11_CPU_ACCESS_WRITE,
+            D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE,
+        };
+
+        D3D11_SUBRESOURCE_DATA data;
+        data.pSysMem = dataPtr;
+        data.SysMemPitch = 0;
+        data.SysMemSlicePitch = 0;
+
+        D3D11_BUFFER_DESC bd;
+        bd.BindFlags = 0;
+        bd.CPUAccessFlags = cpuAccessFlag[ cpuAccessRight ];
+        bd.MiscFlags = 0;
+        bd.ByteWidth = mySize;
+        bd.StructureByteStride = elementSize;
+
+        bd.Usage = bufferUsage[ usage ];
+		if( usage != kT::D3D11HardwareBuffer::StagingBufferUsage )
+        {
+            if( (bindFlags & IndexBuffer) != 0 )
+			    bd.BindFlags |= D3D11_BIND_INDEX_BUFFER;
+            if( (bindFlags & VertexBuffer) != 0 )
+			    bd.BindFlags |= D3D11_BIND_VERTEX_BUFFER;
+            if( (bindFlags & ConstantBuffer) != 0 )
+			    bd.BindFlags |= D3D11_BIND_CONSTANT_BUFFER;
+            if( (bindFlags & ShaderResource) != 0 )
+            {
+			    bd.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+                bd.MiscFlags |= D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+            }
+            if( (bindFlags & StreamOutput) != 0 )
+                bd.BindFlags |= D3D11_BIND_STREAM_OUTPUT;
+            if( (bindFlags & UnorderedAccess) != 0 )
+            {
+                bd.BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
+                bd.MiscFlags |= D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+            }
+            if( (bindFlags & ArgumentBuffer) != 0 )
+            {
+                bd.MiscFlags |= D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS;
+            }
+        }
+
+        HRESULT hr = device->CreateBuffer( &bd, dataPtr != NULL ? &data : NULL, &myBuffer );
+        if( FAILED(hr) )
+            kTLaunchException( kT::Exception, "Failed to create the buffer" );
+
+        if( (bindFlags & ShaderResource) != 0 )
+        {
+            D3D11_SHADER_RESOURCE_VIEW_DESC resDesc;
+            resDesc.Format = DXGI_FORMAT_UNKNOWN;
+            resDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+            resDesc.Buffer.FirstElement = 0;
+            resDesc.Buffer.NumElements = numElements;
+
+            D3D11ShaderResource::CreateShaderResourceView( device, myBuffer, &resDesc );
+        }
+
+        if( (bindFlags & UnorderedAccess) != 0 )
+        {
+            D3D11_UNORDERED_ACCESS_VIEW_DESC resDesc;
+            resDesc.Format = DXGI_FORMAT_UNKNOWN;
+            resDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+            resDesc.Buffer.FirstElement = 0;
+            resDesc.Buffer.NumElements = numElements;
+            resDesc.Buffer.Flags = 0;
+
+            D3D11UnorderedAccessResource::CreateUnorderedAccessView( device, myBuffer, &resDesc );
+        }
+    }
 }

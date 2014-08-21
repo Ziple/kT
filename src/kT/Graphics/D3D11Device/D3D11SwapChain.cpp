@@ -17,14 +17,18 @@ namespace kT
 		PixelFormat::Format format,
 		bool doublebuffer,
 		Uint32 multisamplingLevel):
-	D3D11SwapChain(
-		device->GetHandle(),
-		window,
-		format,
-		doublebuffer,
-		multisamplingLevel
-	)
-	{}
+	SwapChain( window,
+                format,
+                window->GetSize().Width,
+                window->GetSize().Height,
+                doublebuffer,
+                multisamplingLevel ),
+     myDevice( device->GetHandle() ),
+	 mySwapChain( 0 ),
+	 myTexture( 0 )
+    {
+        CreateSwapChain( device->GetHandle(), window, format, doublebuffer, multisamplingLevel );
+    }
 
     // Doens't support multisampling yet.
     KT_API D3D11SwapChain::D3D11SwapChain( ID3D11Device* device,
@@ -41,6 +45,68 @@ namespace kT
      myDevice( device ),
 	 mySwapChain( 0 ),
 	 myTexture( 0 )
+    {
+        CreateSwapChain( device, window, format, doublebuffer, multisamplingLevel );
+    }
+
+    KT_API D3D11SwapChain::~D3D11SwapChain()
+    {
+        DontListenAnymore( myAssociatedWindow );
+        mySwapChain->SetFullscreenState( FALSE, NULL );
+		delete myTexture;
+        mySwapChain->Release();
+    }
+
+    void KT_API D3D11SwapChain::Present( bool waitVSync )
+    {
+        mySwapChain->Present( waitVSync ? 1 : 0,0);
+    }
+
+    void D3D11SwapChain::OnEvent( const EventEmitter<GUIEvent>* emitter, const GUIEvent* event )
+    {
+        if( event->Type == kT::GUIEvent::Resized )
+        {
+            if( myTexture != NULL )
+                delete myTexture;
+
+            // Resize
+            DXGI_SWAP_CHAIN_DESC swapChainDesc;
+            mySwapChain->GetDesc( &swapChainDesc );
+
+            HRESULT ret;
+            ret = mySwapChain->ResizeBuffers(
+                myDoubleBuffered ? 2 : 1,
+                event->Size.Width,
+                event->Size.Height,
+                swapChainDesc.BufferDesc.Format,
+                swapChainDesc.Flags );
+
+            ID3D11Texture2D* backBuffer = 0;
+		    // render target view creation
+		    {
+			    HRESULT hr = mySwapChain->GetBuffer( 0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer) );
+			    if( FAILED(hr) )
+				    kTLaunchException( kT::Exception, "Couldn't get the back buffer" );
+		    }
+
+            myTexture = new D3D11Texture( myDevice, backBuffer );
+        }
+    }
+
+#if defined(KT_DEBUG)
+    void D3D11SwapChain::SetName( const std::string& name )
+    {
+        myTexture->SetName( name );
+        mySwapChain->SetPrivateData( WKPDID_D3DDebugObjectName, name.length(), name.c_str() );
+    }
+#endif
+
+     void KT_API D3D11SwapChain::CreateSwapChain(
+        ID3D11Device* device,
+        Window* window,
+        PixelFormat::Format format,
+        bool doublebuffer,
+        Uint32 multisamplingLevel )
     {
         Listen( window );
 
@@ -134,56 +200,4 @@ namespace kT
         if(window->GetStyle() == kT::Window::Fullscreen)
 			mySwapChain->SetFullscreenState( TRUE, NULL );
     }
-
-    KT_API D3D11SwapChain::~D3D11SwapChain()
-    {
-        DontListenAnymore( myAssociatedWindow );
-        mySwapChain->SetFullscreenState( FALSE, NULL );
-		delete myTexture;
-        mySwapChain->Release();
-    }
-
-    void KT_API D3D11SwapChain::Present( bool waitVSync )
-    {
-        mySwapChain->Present( waitVSync ? 1 : 0,0);
-    }
-
-    void D3D11SwapChain::OnEvent( const EventEmitter<GUIEvent>* emitter, const GUIEvent* event )
-    {
-        if( event->Type == kT::GUIEvent::Resized )
-        {
-            if( myTexture != NULL )
-                delete myTexture;
-
-            // Resize
-            DXGI_SWAP_CHAIN_DESC swapChainDesc;
-            mySwapChain->GetDesc( &swapChainDesc );
-
-            HRESULT ret;
-            ret = mySwapChain->ResizeBuffers(
-                myDoubleBuffered ? 2 : 1,
-                event->Size.Width,
-                event->Size.Height,
-                swapChainDesc.BufferDesc.Format,
-                swapChainDesc.Flags );
-
-            ID3D11Texture2D* backBuffer = 0;
-		    // render target view creation
-		    {
-			    HRESULT hr = mySwapChain->GetBuffer( 0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer) );
-			    if( FAILED(hr) )
-				    kTLaunchException( kT::Exception, "Couldn't get the back buffer" );
-		    }
-
-            myTexture = new D3D11Texture( myDevice, backBuffer );
-        }
-    }
-
-#if defined(KT_DEBUG)
-    void D3D11SwapChain::SetName( const std::string& name )
-    {
-        myTexture->SetName( name );
-        mySwapChain->SetPrivateData( WKPDID_D3DDebugObjectName, name.length(), name.c_str() );
-    }
-#endif
 }

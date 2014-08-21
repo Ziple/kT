@@ -130,6 +130,14 @@ namespace kT
 
         protected:
 
+            void CreateBuffer( ID3D11Device* device,
+                                  Uint32 bindFlags,
+                                  Usage usage,
+                                  Uint32 cpuAccessRight,
+                                  Uint32 elementSize,
+                                  Uint32 numElements,
+                                  const void* data );
+
 			ID3D11Device* myDevice;
             ID3D11Buffer* myBuffer;
     };

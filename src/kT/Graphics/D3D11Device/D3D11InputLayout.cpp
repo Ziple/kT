@@ -12,13 +12,14 @@ namespace kT
 		D3D11Device* device,
 		D3D11Shader* shader,
 		const InputLayoutDesc& inputLayoutDesc):
-		D3D11InputLayout(
-			device->GetHandle(),
-			shader->GetShaderByteCode()->GetBufferPointer(),
-			shader->GetShaderByteCode()->GetBufferSize(),
-			inputLayoutDesc
-		)
+     InputLayout( inputLayoutDesc ),
+     myInputLayout( 0 )
 	{
+        CreateLayout(
+            device->GetHandle(),
+            shader->GetShaderByteCode()->GetBufferPointer(),
+            shader->GetShaderByteCode()->GetBufferSize(),
+            inputLayoutDesc );
 	}
 
     KT_API D3D11InputLayout::D3D11InputLayout(
@@ -28,6 +29,27 @@ namespace kT
         const InputLayoutDesc& inputLayoutDesc ):
      InputLayout( inputLayoutDesc ),
      myInputLayout( 0 )
+    {
+        CreateLayout( device, shaderCode, shaderCodeSize, inputLayoutDesc );
+    }
+
+    KT_API D3D11InputLayout::~D3D11InputLayout()
+    {
+        myInputLayout->Release();
+    }
+
+#if defined(KT_DEBUG)
+    void KT_API D3D11InputLayout::SetName( const std::string& name )
+    {
+        myInputLayout->SetPrivateData( WKPDID_D3DDebugObjectName, name.length(), name.c_str() );
+    }
+#endif
+
+    void KT_API D3D11InputLayout::CreateLayout(
+        ID3D11Device* device,
+        const void* shaderCode,
+        size_t shaderCodeSize,
+        const InputLayoutDesc& inputLayoutDesc )
     {
         D3D11_INPUT_ELEMENT_DESC* layout = new D3D11_INPUT_ELEMENT_DESC[ inputLayoutDesc.numElements ];
         for( size_t i = 0; i < inputLayoutDesc.numElements; i++ )
@@ -53,16 +75,4 @@ namespace kT
         if( FAILED(hr) )
             kTLaunchException( kT::Exception, "Can't create the input layout" );
     }
-
-    KT_API D3D11InputLayout::~D3D11InputLayout()
-    {
-        myInputLayout->Release();
-    }
-
-#if defined(KT_DEBUG)
-    void KT_API D3D11InputLayout::SetName( const std::string& name )
-    {
-        myInputLayout->SetPrivateData( WKPDID_D3DDebugObjectName, name.length(), name.c_str() );
-    }
-#endif
 }

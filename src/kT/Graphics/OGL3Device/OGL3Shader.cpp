@@ -31,7 +31,7 @@ namespace kT
     KT_API OGL3Shader::OGL3Shader(
         OGL3Shader::ShaderType type,
         OGL3Shader::ShaderProfile profile,
-        void* src,
+        const void* src,
         size_t length ):
         Base(type),
         myShaderGLID( 0 )
@@ -55,7 +55,7 @@ namespace kT
 
 		myShaderGLID = ktOGL3Check( glCreateShader(stype) );
 
-        const GLchar* srcs[] = { profileLookupTable[ profile ], reinterpret_cast<GLchar*>(src)};
+        const GLchar* srcs[] = { profileLookupTable[ profile ], reinterpret_cast<const GLchar*>(src)};
 
 		ktOGL3Check( glShaderSource(myShaderGLID, 2, &srcs[0], 0) );
 

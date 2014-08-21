@@ -36,8 +36,15 @@ namespace kT
 	KT_API D3D11BlendState::D3D11BlendState(
 		D3D11Device* device,
 		const BlendStateDesc& desc):
-		D3D11BlendState(device->GetHandle(), desc )
-	{}
+        myHandle(0)
+	{
+        D3D11_BLEND_DESC ddesc = ToD3D11BlendDesc(desc);
+
+        HRESULT hr = device->GetHandle()->CreateBlendState(&ddesc, &myHandle);
+
+		if (FAILED( hr ) )
+			kTLaunchException(kT::Exception, "Failed to create the blend state");
+    }
 
 	KT_API D3D11BlendState::D3D11BlendState(
 		ID3D11Device* dev,

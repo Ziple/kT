@@ -34,7 +34,7 @@ namespace kT
              */
             OGL3Shader( ShaderType shaderType,
                          ShaderProfile shaderProfile,
-                         void* shaderSource,
+                         const void* shaderSource,
                          size_t sourceSize );
 
         ~OGL3Shader();

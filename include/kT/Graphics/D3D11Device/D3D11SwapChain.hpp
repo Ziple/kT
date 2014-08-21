@@ -54,6 +54,12 @@ namespace kT
 
         protected:
 
+            void CreateSwapChain( ID3D11Device* device,
+                            Window* associatedWindow,
+                            PixelFormat::Format format,
+                            bool doubleBuffer,
+                            Uint32 multisamplingLevel );
+
             /**
              * \brief Let us resize properly the swapchain
              */

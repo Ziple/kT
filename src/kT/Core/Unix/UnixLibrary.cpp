@@ -23,11 +23,7 @@ namespace kT
 
     bool KT_API UnixLibrary::Load(const char* filename)
     {
-        char* outStr = 0;
-
-        outStr = strcpy( outStr, filename );
-
-        myIsLoaded = ( myLibraryModule = dlopen( strcat( outStr, ".so" ), RTLD_LAZY) ) ? true : false;
+        myIsLoaded = ( myLibraryModule = dlopen( filename, RTLD_LAZY) ) ? true : false;
         return myIsLoaded;
     }
 
