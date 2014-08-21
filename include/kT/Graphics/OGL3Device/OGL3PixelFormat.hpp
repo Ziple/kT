@@ -2,17 +2,12 @@
 #define __KTOGL3PIXELFORMAT_HPP__
 
 #include <kT/Core/Build.hpp>
+#include <kT/Graphics/PixelFormat.hpp>
 
 #include <GL/glew.h>
 
 namespace kT
 {
-    namespace PixelFormat
-    {
-        enum Format;
-        enum ComponentType;
-    }
-
     class KT_API OGL3Format
     {
         public:

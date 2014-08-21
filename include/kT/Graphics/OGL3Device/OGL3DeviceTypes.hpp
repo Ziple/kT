@@ -27,7 +27,6 @@ namespace kT
 		typedef OGL3SwapChain SwapChain;
 		typedef OGL3DepthStencilTarget DepthStencilTarget;
 		typedef OGL3DeferredContext DeferredContext;
-		typedef OGL3ImmediateContext ImmediateContext;
 		typedef OGL3InputLayout InputLayout;
 		typedef OGL3CommandList CommandList;
         typedef void* Shader;

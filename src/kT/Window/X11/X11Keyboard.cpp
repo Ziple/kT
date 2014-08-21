@@ -70,9 +70,7 @@ namespace kT
             case Keyboard::Quote:      keysym = XK_dead_acute;   break;
             case Keyboard::Slash:      keysym = XK_slash;        break;
             case Keyboard::BackSlash:  keysym = XK_backslash;    break;
-            case Keyboard::Tilde:      keysym = XK_dead_grave;   break;
             case Keyboard::Equal:      keysym = XK_equal;        break;
-            case Keyboard::Dash:       keysym = XK_minus;        break;
             case Keyboard::Space:      keysym = XK_space;        break;
             case Keyboard::Return:     keysym = XK_Return;       break;
             case Keyboard::BackSpace:  keysym = XK_BackSpace;    break;

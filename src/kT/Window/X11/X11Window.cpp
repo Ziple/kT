@@ -570,14 +570,12 @@ namespace kT
             case XK_semicolon :    return Keyboard::SemiColon;
             case XK_slash :        return Keyboard::Slash;
             case XK_equal :        return Keyboard::Equal;
-            case XK_minus :        return Keyboard::Dash;
             case XK_bracketleft :  return Keyboard::LBracket;
             case XK_bracketright : return Keyboard::RBracket;
             case XK_comma :        return Keyboard::Comma;
             case XK_period :       return Keyboard::Period;
             case XK_dead_acute :   return Keyboard::Quote;
             case XK_backslash :    return Keyboard::BackSlash;
-            case XK_dead_grave :   return Keyboard::Tilde;
             case XK_space :        return Keyboard::Space;
             case XK_Return :       return Keyboard::Return;
             case XK_KP_Enter :     return Keyboard::Return;

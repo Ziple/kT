@@ -28,7 +28,7 @@ namespace kT
 		ktOGL3Check( glBindTexture(myTarget, myHandle) );
 
         GLint dataFormat = OGL3Format::GetOGL3DataFormat( format );
-        auto formatdesc = PixelUtility::GetPixelFormatDescriptor(format);
+        PixelFormatDescriptor formatdesc = PixelUtility::GetPixelFormatDescriptor(format);
 
         GLenum dataType = OGL3Format::GetOGL3ComponentTypeFormat( formatdesc.ComponentsDescriptors[0].Type );
 
