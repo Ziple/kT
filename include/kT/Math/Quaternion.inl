@@ -3,7 +3,7 @@
 namespace kT
 {
     template< typename T >
-    Quaternion< T >::Quaternion( const T& x_,
+    KT_TEMPLATE_API Quaternion< T >::Quaternion( const T& x_,
                                      const T& y_,
                                      const T& z_,
                                      const T& w_ ):
@@ -15,13 +15,13 @@ namespace kT
     }
 
     template< typename T >
-    Quaternion< T >::Quaternion( const Vector3< T >& a )
+    KT_TEMPLATE_API Quaternion< T >::Quaternion( const Vector3< T >& a )
     {
         BuildFromEuler( a );
     }
 
     template< typename T >
-    Quaternion< T >& Quaternion< T >::operator=( const Quaternion< T >& other )
+    KT_TEMPLATE_API Quaternion< T >& Quaternion< T >::operator=( const Quaternion< T >& other )
     {
         w = other.w;
         x = other.x;
@@ -32,7 +32,7 @@ namespace kT
     }
 
     template< typename T >
-    Quaternion< T > Quaternion< T >::operator*( const Quaternion< T >& other ) const
+    Quaternion< T > KT_TEMPLATE_API Quaternion< T >::operator*( const Quaternion< T >& other ) const
     {
          Quaternion< T > r( T(0), T(0), T(0), T(1) );
 
@@ -45,14 +45,14 @@ namespace kT
     }
 
     template< typename T >
-    Quaternion< T >& Quaternion< T >::operator*=( const Quaternion< T >& other )
+    KT_TEMPLATE_API Quaternion< T >& Quaternion< T >::operator*=( const Quaternion< T >& other )
     {
         (*this) = (*this) * other;
         return *this;
     }
 
     template< typename T >
-    Quaternion< T >& Quaternion< T >::BuildFromEuler( const Vector3< T >& a )
+    KT_TEMPLATE_API Quaternion< T >& Quaternion< T >::BuildFromEuler( const Vector3< T >& a )
     {
         const T fYaw = T( a.x * 0.5f ),
                 fPitch = T( a.y * 0.5f ),
@@ -78,7 +78,7 @@ namespace kT
     }
 
     template< typename T >
-    Quaternion< T >& Quaternion< T >::BuildFromAxisAndAngle( const Vector3< T >& axis, const T& angle )
+    KT_TEMPLATE_API Quaternion< T >& Quaternion< T >::BuildFromAxisAndAngle( const Vector3< T >& axis, const T& angle )
     {
         const T sina = std::sin( angle/ T(2) ),
                 cosa = std::cos( angle / T(2) );
@@ -93,13 +93,13 @@ namespace kT
     }
 
     template< typename T >
-    Quaternion< T > Quaternion< T >::GetConjugated() const
+    Quaternion< T > KT_TEMPLATE_API Quaternion< T >::GetConjugated() const
     {
         return Quaternion< T >(w, -x, -y, -z);
     }
 
     template< typename T >
-    Quaternion< T >& Quaternion< T >::Conjugate()
+    KT_TEMPLATE_API Quaternion< T >& Quaternion< T >::Conjugate()
     {
         x = -x;
         y = -y;
@@ -109,7 +109,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Quaternion< T >::GetMatrix4() const
+    Matrix4< T > KT_TEMPLATE_API Quaternion< T >::GetMatrix4() const
     {
         Matrix4< T > r;
         T wx, wy, wz, xx, yy, yz, xy, xz, zz, x2, y2, z2;
@@ -149,7 +149,7 @@ namespace kT
     }
 
     template< typename T >
-    AxisAndAngle< T > Quaternion< T >::GetAxisAndAngle() const
+    AxisAndAngle< T > KT_TEMPLATE_API Quaternion< T >::GetAxisAndAngle() const
     {
         AxisAndAngle< T > axisAndAngle;
 
@@ -160,7 +160,7 @@ namespace kT
     }
 
     template< typename T >
-    Quaternion< T >& Quaternion< T >::Normalize()
+    KT_TEMPLATE_API Quaternion< T >& Quaternion< T >::Normalize()
     {
         T n = RcpqSqrt( w*w + x*x + y*y + z*z);
 
@@ -173,7 +173,7 @@ namespace kT
     }
 
     template< typename T >
-    Quaternion< T > Quaternion< T >::GetNormalized() const
+    Quaternion< T > KT_TEMPLATE_API Quaternion< T >::GetNormalized() const
     {
         Quaternion< T > r( *this );
         return r.Normalize();

@@ -7,7 +7,9 @@
 #ifndef __KTVECTOR3_HPP__
 #define __KTVECTOR3_HPP__
 
-#include <kT/Core/Types.hpp>
+#include "../Core/Types.hpp"
+#include "../Core/Build.hpp"
+#include "../Core/Compiler.hpp"
 #include "Helpers.hpp"
 #include "Vector4.hpp"
 
@@ -18,7 +20,7 @@ namespace kT
      * \brief Generic class for 3D vectors.
      */
     template< typename T >
-    struct Vector3
+    struct KT_TEMPLATE_API Vector3
     {
         T x, y, z;
 
@@ -90,6 +92,11 @@ namespace kT
         Vector3< T >& operator*=(const T& s);
 
         /**
+         * \brief Component wise multiplication.
+         */
+        Vector3< T >& operator*=(const Vector3< T >& v);
+
+        /**
          * \brief Returns a new vector, result of the division by the scalar.
          */
         Vector3< T > operator/(const T& s) const;
@@ -151,20 +158,26 @@ namespace kT
     typedef Vector3< Scalar > Vector3sc;
 
     template< typename T >
-    Vector3< T > Abs( const Vector3< T >& v );
+    Vector3< T > KT_TEMPLATE_API Abs( const Vector3< T >& v );
 
     template< typename T >
-    Vector3< T > Min( const Vector3< T >& v, const Vector3< T >& w );
+    Vector3< T > KT_TEMPLATE_API Min( const Vector3< T >& v, const Vector3< T >& w );
 
     template< typename T >
-    Vector3< T > Max( const Vector3< T >& v, const Vector3< T >& w );
+    Vector3< T > KT_TEMPLATE_API Max( const Vector3< T >& v, const Vector3< T >& w );
 }
 
 /**
  * \brief Returns a new vector, result of the product with the scalar.
  */
 template< typename T >
-kT::Vector3< T > operator*(const T& s, const kT::Vector3< T >& v);
+kT::Vector3< T > KT_API operator*(const T& s, const kT::Vector3< T >& v);
+
+/**
+ * \brief Returns a new vector, result of the component-wise multiplication.
+ */
+template< typename T >
+kT::Vector3< T > KT_API operator*(const kT::Vector3< T >& u, const kT::Vector3< T >& v);
 
 #include "Vector3.inl"
 

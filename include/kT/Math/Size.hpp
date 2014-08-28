@@ -7,7 +7,9 @@
 #ifndef __KTSIZE_HPP__
 #define __KTSIZE_HPP__
 
-#include <kT/Core/Types.hpp>
+#include "../Core/Types.hpp"
+#include "../Core/Build.hpp"
+#include "../Core/Compiler.hpp"
 
 namespace kT
 {
@@ -16,7 +18,7 @@ namespace kT
      * \brief Generic class for sizes.
      */
     template< typename T >
-    struct Size
+    struct KT_TEMPLATE_API Size
     {
         T Width; ///< Width
         T Height;///< Height

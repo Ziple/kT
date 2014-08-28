@@ -7,7 +7,9 @@
 #ifndef __KTCOLOR_HPP__
 #define __KTCOLOR_HPP__
 
-#include <kT/Core/Types.hpp>
+#include "../Core/Types.hpp"
+#include "../Core/Build.hpp"
+#include "../Core/Compiler.hpp"
 
 namespace kT
 {
@@ -20,7 +22,7 @@ namespace kT
      * one.
      */
     template< typename T >
-    struct Color
+    struct KT_TEMPLATE_API Color
     {
         /**
          * \brief Default Constructor.
@@ -55,6 +57,13 @@ namespace kT
     typedef Color< Uint16 > Colorui16;
     typedef Color< Uint32 > Colorui32;
     typedef Color< Float32 > Colorf32;
+
+#if defined(KT_EXTERN_TEMPLATES_SUPPORT) && !defined(KT_TEMPLATE_IMPL)
+    extern template Color< Uint16 >;
+    extern template Color< Uint32 >;
+    extern template Color< Float32 >;
+#endif
+
 }
 
 #include "Color.inl"

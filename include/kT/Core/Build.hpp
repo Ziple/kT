@@ -8,6 +8,7 @@
 #define __KTBUILD_HPP__
 
 #include "System.hpp"
+#include "Compiler.hpp"
 
 /**
  * \ingroup ktcore_module
@@ -47,6 +48,16 @@
 #if !defined(NDEBUG) || defined(_DEBUG)
 
     # define KT_DEBUG
+
+#endif
+
+#if defined(KT_EXTERN_TEMPLATES_SUPPORT)
+
+    #define KT_TEMPLATE_API KT_API
+
+#else
+
+    #define KT_TEMPLATE_API
 
 #endif
 

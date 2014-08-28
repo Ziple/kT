@@ -7,13 +7,15 @@
 #ifndef __KTQUATERNION_HPP__
 #define __KTQUATERNION_HPP__
 
-#include <kT/Core/Types.hpp>
+#include "../Core/Types.hpp"
+#include "../Core/Build.hpp"
+#include "../Core/Compiler.hpp"
 #include "Matrix4.hpp"
 
 namespace kT
 {
     template<typename Q>
-    struct AxisAndAngle
+    struct KT_TEMPLATE_API AxisAndAngle
     {
         Vector3<Q> axis;
         Q angle;
@@ -28,7 +30,7 @@ namespace kT
      * they are not pertubated by the gimbal lock.
      */
     template< typename T >
-    struct Quaternion
+    struct KT_TEMPLATE_API Quaternion
     {
         T x, y, z, w;
 

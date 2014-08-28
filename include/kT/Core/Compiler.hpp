@@ -30,9 +30,13 @@
 
     # define KT_COMPILER KT_COMPILER_GCC
 
-#else
+#endif
 
-    # error Unsupported compiler, sorry...
+#if __cplusplus > 199711L
+
+    #define KT_CPP_11
+
+    #define KT_EXTERN_TEMPLATES_SUPPORT
 
 #endif
 

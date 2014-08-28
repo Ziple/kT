@@ -7,7 +7,9 @@
 #ifndef __KTVECTOR2_HPP__
 #define __KTVECTOR2_HPP__
 
-#include <kT/Core/Types.hpp>
+#include "../Core/Types.hpp"
+#include "../Core/Build.hpp"
+#include "../Core/Compiler.hpp"
 
 namespace kT
 {
@@ -17,7 +19,7 @@ namespace kT
      * \todo Refactor this.
      */
     template< typename T >
-    struct Vector2
+    struct KT_TEMPLATE_API Vector2
     {
         T x, y;
 
@@ -96,20 +98,20 @@ namespace kT
     typedef Vector2< Scalar > Vector2sc;
 
     template< typename T >
-    Vector2< T > Abs( const Vector2< T >& v );
+    Vector2< T > KT_TEMPLATE_API Abs( const Vector2< T >& v );
 
     template< typename T >
-    Vector2< T > Min( const Vector2< T >& v, const Vector2< T >& w );
+    Vector2< T > KT_TEMPLATE_API Min( const Vector2< T >& v, const Vector2< T >& w );
 
     template< typename T >
-    Vector2< T > Max( const Vector2< T >& v, const Vector2< T >& w );
+    Vector2< T > KT_TEMPLATE_API Max( const Vector2< T >& v, const Vector2< T >& w );
 }
 
 /**
  * \brief Returns a new vector, result of the product with the scalar.
  */
 template< typename T >
-kT::Vector2< T > operator*(const T& s, const kT::Vector2< T >& v);
+kT::Vector2< T > KT_TEMPLATE_API operator*(const T& s, const kT::Vector2< T >& v);
 
 #include "Vector2.inl"
 

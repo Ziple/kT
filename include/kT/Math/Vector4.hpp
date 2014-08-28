@@ -7,7 +7,9 @@
 #ifndef __KTVECTOR4_HPP__
 #define __KTVECTOR4_HPP__
 
-#include <kT/Core/Types.hpp>
+#include "../Core/Types.hpp"
+#include "../Core/Build.hpp"
+#include "../Core/Compiler.hpp"
 
 namespace kT
 {
@@ -16,7 +18,7 @@ namespace kT
      * \brief Generic class for 3D vectors.
      */
     template< typename T >
-    struct Vector4
+    struct KT_TEMPLATE_API Vector4
     {
         T x, y, z, w;
 
@@ -124,20 +126,20 @@ namespace kT
     typedef Vector4< Scalar > Vector4sc;
 
     template< typename T >
-    Vector4< T > Abs( const Vector4< T >& v );
+    Vector4< T > KT_TEMPLATE_API Abs( const Vector4< T >& v );
 
     template< typename T >
-    Vector4< T > Min( const Vector4< T >& v, const Vector4< T >& w );
+    Vector4< T > KT_TEMPLATE_API Min( const Vector4< T >& v, const Vector4< T >& w );
 
     template< typename T >
-    Vector4< T > Max( const Vector4< T >& v, const Vector4< T >& w );
+    Vector4< T > KT_TEMPLATE_API Max( const Vector4< T >& v, const Vector4< T >& w );
 }
 
 /**
  * \brief Returns a new vector, result of the product with the scalar.
  */
 template< typename T >
-kT::Vector4< T > operator*(const T& s, const kT::Vector4< T >& v);
+kT::Vector4< T > KT_TEMPLATE_API operator*(const T& s, const kT::Vector4< T >& v);
 
 #include "Vector4.inl"
 

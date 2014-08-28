@@ -7,8 +7,10 @@
 #ifndef __KTCURVE_HPP__
 #define __KTCURVE_HPP__
 
-#include <kT/Core/Build.hpp>
-#include <kT/Math/Vector3.hpp>
+#include "../Core/Types.hpp"
+#include "../Core/Build.hpp"
+#include "../Core/Compiler.hpp"
+#include "Vector3.hpp"
 
 #include <vector>
 
@@ -19,7 +21,7 @@ namespace kT
      * an absciss s on the curve.
      */
     template< typename PointT, typename TimeT >
-    class Curve
+    class KT_TEMPLATE_API Curve
     {
     public:
 
@@ -38,7 +40,7 @@ namespace kT
      * all those points.
      */
     template< typename PointT, typename TimeT >
-    class BezierCurve: public Curve< PointT, TimeT >
+    class KT_TEMPLATE_API BezierCurve: public Curve< PointT, TimeT >
     {
         public:
 
@@ -57,6 +59,14 @@ namespace kT
             std::vector< PointT > myControlPoints;
             PointT* myShadow;
     };
+
+    typedef BezierCurve< kT::Vector3f32, Float32 > BezierCurve3f32;
+    typedef BezierCurve< kT::Vector4f32, Float32 > BezierCurve4f32;
+
+#if defined(KT_EXTERN_TEMPLATES_SUPPORT) && !defined(KT_TEMPLATE_IMPL)
+    extern template BezierCurve< kT::Vector3f32, Float32 >;
+    extern template BezierCurve< kT::Vector4f32, Float32 >;
+#endif
 }
 
 #include "Curve.inl"

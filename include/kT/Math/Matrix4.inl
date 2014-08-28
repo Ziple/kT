@@ -3,19 +3,19 @@
 namespace kT
 {
     template< typename T >
-    Matrix4< T >::Matrix4( const T* a )
+    KT_TEMPLATE_API Matrix4< T >::Matrix4( const T* a )
     {
         memcpy( &_11, a, sizeof(T) * 16 );
     }
 
     template< typename T >
-    Matrix4< T >::Matrix4( const Matrix4< T >& other )
+    KT_TEMPLATE_API Matrix4< T >::Matrix4( const Matrix4< T >& other )
     {
         memcpy( &_11, &(other._11), sizeof(T) * 16 );
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::LoadIdentity()
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::LoadIdentity()
     {
         _11 = _22 = _33 = _44 = T(1);
         _12 = _13 = _14 = _21 = _23 = _24 = _31 = _32 = _34 = _41 = _42 = _43 = T(0);
@@ -23,7 +23,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::Identity()
+    Matrix4< T > KT_TEMPLATE_API Matrix4< T >::Identity()
     {
         Matrix4< T > id;
         id.LoadIdentity();
@@ -31,7 +31,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::BuildLookAtLH( const Vector3< T >& pos,
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::BuildLookAtLH( const Vector3< T >& pos,
                                            const Vector3< T >& at,
                                            const Vector3< T >& up )
     {
@@ -67,7 +67,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::LookAtLH( const Vector3< T >& pos,
+    Matrix4< T > KT_TEMPLATE_API Matrix4< T >::LookAtLH( const Vector3< T >& pos,
                                            const Vector3< T >& at,
                                            const Vector3< T >& up )
     {
@@ -77,7 +77,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::BuildLookAtRH( const Vector3< T >& pos,
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::BuildLookAtRH( const Vector3< T >& pos,
                                            const Vector3< T >& at,
                                            const Vector3< T >& up )
     {
@@ -113,7 +113,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::LookAtRH( const Vector3< T >& pos,
+    Matrix4< T > KT_TEMPLATE_API Matrix4< T >::LookAtRH( const Vector3< T >& pos,
                                            const Vector3< T >& at,
                                            const Vector3< T >& up )
     {
@@ -123,7 +123,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::BuildPerspectiveProjectionFOVLH( const T& fov,
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::BuildPerspectiveProjectionFOVLH( const T& fov,
                                                             const T& aspectRatio,
                                                             const T& zNear,
                                                             const T& zFar )
@@ -156,7 +156,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::PerspectiveProjectionFOVLH( const T& fov,
+    Matrix4< T > KT_TEMPLATE_API Matrix4< T >::PerspectiveProjectionFOVLH( const T& fov,
                                                             const T& aspectRatio,
                                                             const T& zNear,
                                                             const T& zFar )
@@ -167,7 +167,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::BuildPerspectiveProjectionFOVRH( const T& fov,
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::BuildPerspectiveProjectionFOVRH( const T& fov,
                                                             const T& aspectRatio,
                                                             const T& zNear,
                                                             const T& zFar )
@@ -200,7 +200,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::PerspectiveProjectionFOVRH( const T& fov,
+    Matrix4< T > KT_TEMPLATE_API Matrix4< T >::PerspectiveProjectionFOVRH( const T& fov,
                                                             const T& aspectRatio,
                                                             const T& zNear,
                                                             const T& zFar )
@@ -211,7 +211,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::BuildRotationX( const T& a )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::BuildRotationX( const T& a )
     {
         T c = std::cos( a );
         T s = std::sin( a );
@@ -228,7 +228,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::BuildRotationY( const T& a )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::BuildRotationY( const T& a )
     {
         T c = std::cos( a );
         T s = std::sin( a );
@@ -245,7 +245,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::BuildRotationZ( const T& a )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::BuildRotationZ( const T& a )
     {
         T c = std::cos( a );
         T s = std::sin( a );
@@ -262,7 +262,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::BuildRotation( const Vector3< T >& a )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::BuildRotation( const Vector3< T >& a )
     {
         float A       = cos(a.x);
         float B       = sin(a.x);
@@ -291,7 +291,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::RotateX( const T& a )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::RotateX( const T& a )
     {
         Matrix4< T > temp;
         temp.BuildRotationX(a);
@@ -301,7 +301,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::RotateY( const T& a )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::RotateY( const T& a )
     {
         Matrix4< T > temp;
         temp.BuildRotationY(a);
@@ -311,7 +311,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::RotateZ( const T& a )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::RotateZ( const T& a )
     {
         Matrix4< T > temp;
         temp.BuildRotationZ(a);
@@ -321,7 +321,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::Rotate( const Vector3< T >& a )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::Rotate( const Vector3< T >& a )
     {
         Matrix4< T > temp;
         temp.BuildRotation(a);
@@ -331,7 +331,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::GetRotatedX( const T& a ) const
+    Matrix4< T > KT_TEMPLATE_API Matrix4< T >::GetRotatedX( const T& a ) const
     {
         Matrix4< T > temp;
         temp.BuildRotationX(a);
@@ -339,7 +339,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::GetRotatedY( const T& a ) const
+    Matrix4< T > KT_TEMPLATE_API Matrix4< T >::GetRotatedY( const T& a ) const
     {
         Matrix4< T > temp;
         temp.BuildRotationY(a);
@@ -347,7 +347,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::GetRotatedZ( const T& a ) const
+    Matrix4< T > KT_TEMPLATE_API Matrix4< T >::GetRotatedZ( const T& a ) const
     {
         Matrix4< T > temp;
         temp.BuildRotationZ(a);
@@ -355,7 +355,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::GetRotated( const Vector3< T >& a ) const
+    Matrix4< T > KT_TEMPLATE_API Matrix4< T >::GetRotated( const Vector3< T >& a ) const
     {
         Matrix4< T > temp;
         temp.BuildRotation(a);
@@ -363,7 +363,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::BuildTranslation( const Vector3< T >& t )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::BuildTranslation( const Vector3< T >& t )
     {
         _41 = t.x;
         _42 = t.y;
@@ -376,7 +376,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::Translate( const Vector3< T >& t )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::Translate( const Vector3< T >& t )
     {
         _41 += t.x;
         _42 += t.y;
@@ -386,14 +386,14 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::GetTranslated( const Vector3< T >& t )
+    Matrix4< T > KT_TEMPLATE_API Matrix4< T >::GetTranslated( const Vector3< T >& t )
     {
         Matrix4< T > r( *this );
         return r.Translate( t );
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::BuildScaling( const Vector3< T >& s )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::BuildScaling( const Vector3< T >& s )
     {
         _11 = s.x;
         _22 = s.y;
@@ -406,7 +406,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::Scale( const Vector3< T >& s )
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::Scale( const Vector3< T >& s )
     {
         _11 *= s.x;
         _21 *= s.x;
@@ -427,14 +427,14 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::GetScaled( const Vector3< T >& s ) const
+    Matrix4< T > KT_TEMPLATE_API Matrix4< T >::GetScaled( const Vector3< T >& s ) const
     {
         Matrix4< T > r( *this );
         return r.Scale( s );
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::Transpose()
+    KT_TEMPLATE_API Matrix4< T >& Matrix4< T >::Transpose()
     {
         std::swap( _12, _21 );
         std::swap( _13, _31 );
@@ -447,7 +447,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T > Matrix4< T >::GetTransposed() const
+    KT_TEMPLATE_API Matrix4< T > Matrix4< T >::GetTransposed() const
     {
         Matrix4< T > r;
         r._11 = _11;
@@ -475,14 +475,14 @@ namespace kT
     }
 
     template< typename T >
-    Matrix4< T >& Matrix4< T >::operator*=( const Matrix4< T >& o )
+    Matrix4< T >& KT_TEMPLATE_API Matrix4< T >::operator*=( const Matrix4< T >& o )
     {
         return (*this) = o * (*this);
     }
 }
 
 template< typename T >
-kT::Matrix4< T > operator*( const kT::Matrix4< T >& A, const kT::Matrix4< T >& B )
+kT::Matrix4< T > KT_TEMPLATE_API operator*( const kT::Matrix4< T >& A, const kT::Matrix4< T >& B )
 {
     kT::Matrix4< T > r;
 
@@ -510,7 +510,7 @@ kT::Matrix4< T > operator*( const kT::Matrix4< T >& A, const kT::Matrix4< T >& B
 }
 
 template< typename T >
-kT::Vector3< T > operator*( const kT::Matrix4< T >& M, const kT::Vector3< T >& v )
+kT::Vector3< T > KT_TEMPLATE_API operator*( const kT::Matrix4< T >& M, const kT::Vector3< T >& v )
 {
     kT::Vector3< T > r;
     r.x = v.x*M._11 + v.y*M._21 + v.z*M._31 + M._41;
@@ -520,7 +520,7 @@ kT::Vector3< T > operator*( const kT::Matrix4< T >& M, const kT::Vector3< T >& v
 }
 
 template< typename T >
-kT::Vector4< T > operator*( const kT::Matrix4< T >& M, const kT::Vector4< T >& v )
+kT::Vector4< T > KT_TEMPLATE_API operator*( const kT::Matrix4< T >& M, const kT::Vector4< T >& v )
 {
     kT::Vector4< T > r;
     r.x = v.x*M._11 + v.y*M._21 + v.z*M._31 + v.w*M._41;

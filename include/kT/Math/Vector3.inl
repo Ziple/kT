@@ -3,7 +3,7 @@
 namespace kT
 {
     template< typename T >
-    Vector3< T >::Vector3(const T& x_, const T& y_, const T& z_):
+    KT_TEMPLATE_API Vector3< T >::Vector3(const T& x_, const T& y_, const T& z_):
      x(x_),
      y(y_),
      z(z_)
@@ -11,7 +11,7 @@ namespace kT
     }
 
     template< typename T >
-    Vector3< T >::Vector3(const Vector3< T >& other):
+    KT_TEMPLATE_API Vector3< T >::Vector3(const Vector3< T >& other):
      x(other.x),
      y(other.y),
      z(other.z)
@@ -19,31 +19,31 @@ namespace kT
     }
 
 	template< typename T >
-	Vector4<T> Vector3< T >::AsPoint4() const
+	Vector4<T> KT_TEMPLATE_API Vector3< T >::AsPoint4() const
 	{
 		return Vector4< T >(x, y, z, 1.0f);
 	}
 
 	template< typename T >
-	Vector4<T> Vector3< T >::AsVector4() const
+	Vector4<T> KT_TEMPLATE_API Vector3< T >::AsVector4() const
 	{
 		return Vector4< T >(x, y, z, 0.0f);
 	}
 
     template< typename T >
-    bool Vector3< T >::operator==( const Vector3< T >& o ) const
+    bool KT_TEMPLATE_API Vector3< T >::operator==( const Vector3< T >& o ) const
     {
         return (x == o.x) && (y == o.y) && (z == o.z);
     }
 
     template< typename T >
-    bool Vector3< T >::operator!=( const Vector3< T >& o ) const
+    bool KT_TEMPLATE_API Vector3< T >::operator!=( const Vector3< T >& o ) const
     {
         return (x != o.x) || (y != o.y) || (z != o.z);
     }
 
     template< typename T >
-    Vector3< T >& Vector3< T >::operator=(const Vector3< T >& other)
+    KT_TEMPLATE_API Vector3< T >& Vector3< T >::operator=(const Vector3< T >& other)
     {
         x = other.x;
         y = other.y;
@@ -53,19 +53,19 @@ namespace kT
     }
 
     template< typename T >
-    Vector3< T > Vector3< T >::operator-() const
+    Vector3< T > KT_TEMPLATE_API Vector3< T >::operator-() const
     {
         return Vector3< T >( -x, -y, -z );
     }
 
     template< typename T >
-    Vector3< T > Vector3< T >::operator+(const Vector3< T >& other) const
+    Vector3< T > KT_TEMPLATE_API Vector3< T >::operator+(const Vector3< T >& other) const
     {
         return Vector3< T >(x + other.x, y + other.y, z + other.z);
     }
 
     template< typename T >
-    Vector3< T >& Vector3< T >::operator+=(const Vector3< T >& other)
+    KT_TEMPLATE_API Vector3< T >& Vector3< T >::operator+=(const Vector3< T >& other)
     {
         x += other.x;
         y += other.y;
@@ -75,13 +75,13 @@ namespace kT
     }
 
     template< typename T >
-    Vector3< T > Vector3< T >::operator-(const Vector3< T >& other) const
+    Vector3< T > KT_TEMPLATE_API Vector3< T >::operator-(const Vector3< T >& other) const
     {
         return Vector3< T >(x - other.x, y - other.y, z - other.z);
     }
 
     template< typename T >
-    Vector3< T >& Vector3< T >::operator-=(const Vector3< T >& other)
+    KT_TEMPLATE_API Vector3< T >& Vector3< T >::operator-=(const Vector3< T >& other)
     {
         x -= other.x;
         y -= other.y;
@@ -91,7 +91,7 @@ namespace kT
     }
 
     template< typename T >
-    Vector3< T >& Vector3< T >::operator*=(const T& s)
+    KT_TEMPLATE_API Vector3< T >& Vector3< T >::operator*=(const T& s)
     {
         x *= s;
         y *= s;
@@ -101,13 +101,23 @@ namespace kT
     }
 
     template< typename T >
-    Vector3< T > Vector3< T >::operator/(const T& s) const
+    KT_TEMPLATE_API Vector3< T >& Vector3< T >::operator*=(const Vector3< T >& v)
+    {
+        x *= v.x;
+        y *= v.y;
+        z *= v.z;
+
+        return *this;
+    }
+
+    template< typename T >
+    Vector3< T > KT_TEMPLATE_API Vector3< T >::operator/(const T& s) const
     {
         return Vector3< T >(x / s, y /s, z / s);
     }
 
     template< typename T >
-    Vector3< T >& Vector3< T >::operator/=(const T& s)
+    KT_TEMPLATE_API Vector3< T >& Vector3< T >::operator/=(const T& s)
     {
         x /= s;
         y /= s;
@@ -117,13 +127,13 @@ namespace kT
     }
 
     template< typename T >
-    T Vector3< T >::Dot(const Vector3< T >& other) const
+    KT_TEMPLATE_API T Vector3< T >::Dot(const Vector3< T >& other) const
     {
         return x * other.x + y * other.y + z * other.z;
     }
 
     template< typename T >
-    Vector3< T > Vector3< T >::Cross(const Vector3< T >& other) const
+    KT_TEMPLATE_API Vector3< T > Vector3< T >::Cross(const Vector3< T >& other) const
     {
         return Vector3< T >(y * other.z - z * other.y,
                           z * other.x - x * other.z,
@@ -131,19 +141,19 @@ namespace kT
     }
 
     template< typename T >
-    T Vector3< T >::SqrLength() const
+    KT_TEMPLATE_API T Vector3< T >::SqrLength() const
     {
         return x*x + y*y + z*z;
     }
 
     template< typename T >
-    T Vector3< T >::Length() const
+    KT_TEMPLATE_API T Vector3< T >::Length() const
     {
         return std::sqrt(x*x + y*y + z*z);
     }
 
     template< typename T >
-    Vector3< T >& Vector3< T >::Normalize()
+    Vector3< T >& KT_TEMPLATE_API Vector3< T >::Normalize()
     {
         T len = Length();
         x /= len;
@@ -154,14 +164,14 @@ namespace kT
     }
 
     template< typename T >
-    Vector3< T > Vector3< T >::Normalized() const
+    Vector3< T > KT_TEMPLATE_API Vector3< T >::Normalized() const
     {
         Vector3< T > r( *this );
         return r.Normalize();
     }
 
     template< typename T >
-    Vector3< T >& Vector3< T >::Rotate( const Vector3< T >& axis, Scalar angle )
+    KT_TEMPLATE_API Vector3< T >& Vector3< T >::Rotate( const Vector3< T >& axis, Scalar angle )
     {
         // Projection of the vector on the axis. (i.e the part that is not rotated)
         Vector3< T > proj = Dot(axis) * axis;
@@ -176,7 +186,7 @@ namespace kT
     }
 
     template< typename T >
-    Vector3< T > Vector3< T >::Rotated( const Vector3< T >& axis, Scalar angle ) const
+    Vector3< T > KT_TEMPLATE_API Vector3< T >::Rotated( const Vector3< T >& axis, Scalar angle ) const
     {
         // Projection of the vector on the axis. (i.e the part that is not rotated)
         Vector3< T > proj = Dot(axis) * axis;
@@ -190,26 +200,32 @@ namespace kT
     }
 
     template< typename T >
-    Vector3< T > Abs( const Vector3< T >& v )
+    Vector3< T > KT_TEMPLATE_API Abs( const Vector3< T >& v )
     {
         return Vector3< T >( kT::Abs( v.x ), kT::Abs( v.y ), kT::Abs( v.z ) ); 
     }
 
     template< typename T >
-    Vector3< T > Min( const Vector3< T >& v, const Vector3< T >& w )
+    Vector3< T > KT_TEMPLATE_API Min( const Vector3< T >& v, const Vector3< T >& w )
     {
         return Vector3< T >( kT::Min( v.x, w.x ), kT::Min( v.y, w.y ), kT::Min( v.z, w.z ) );
     }
 
     template< typename T >
-    Vector3< T > Max( const Vector3< T >& v, const Vector3< T >& w )
+    Vector3< T > KT_TEMPLATE_API Max( const Vector3< T >& v, const Vector3< T >& w )
     {
         return Vector3< T >( kT::Max( v.x, w.x ), kT::Max( v.y, w.y ), kT::Max( v.z, w.z ) );
     }
 }
 
 template< typename T >
-kT::Vector3< T > operator*( const T& s, const kT::Vector3< T >& v )
+kT::Vector3< T > KT_TEMPLATE_API operator*( const T& s, const kT::Vector3< T >& v )
 {
     return kT::Vector3< T >(v.x * s, v.y *s, v.z * s);
+}
+
+template< typename T >
+kT::Vector3< T > KT_TEMPLATE_API operator*( const kT::Vector3< T >& u, const kT::Vector3< T >& v )
+{
+    return kT::Vector3< T >(v.x * u.x, v.y * u.y, v.z * u.z);
 }

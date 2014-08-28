@@ -7,7 +7,9 @@
 #ifndef __KTMATRIX3_HPP__
 #define __KTMATRIX3_HPP__
 
-#include <kT/Core/Types.hpp>
+#include "../Core/Types.hpp"
+#include "../Core/Build.hpp"
+#include "../Core/Compiler.hpp"
 
 #include "Vector3.hpp"
 
@@ -22,7 +24,7 @@ namespace kT
      * 3x3 matrices are like the 4x4 matrices but can't be used for translations.
      */
     template< typename T >
-    struct Matrix3
+    struct KT_TEMPLATE_API Matrix3
     {
         T _11, _12, _13,
           _21, _22, _23,
@@ -152,7 +154,7 @@ namespace kT
  * \brief Returns A*B.
  */
 template< typename T >
-kT::Matrix3< T > operator*(const kT::Matrix3< T >& A, const kT::Matrix3< T >& B);
+kT::Matrix3< T > KT_TEMPLATE_API operator*(const kT::Matrix3< T >& A, const kT::Matrix3< T >& B);
 
 #include "Matrix3.inl"
 

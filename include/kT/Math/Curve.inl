@@ -3,10 +3,10 @@
 namespace kT
 {
     template< typename PointT, typename TimeT >
-    Curve::~Curve() {}
+    KT_TEMPLATE_API Curve::~Curve() {}
 
     template< typename PointT, typename TimeT >
-    BezierCurve::BezierCurve(
+    KT_TEMPLATE_API BezierCurve::BezierCurve(
         const std::vector< PointT >& controlPoints
         ):
      myShadow( 0 )
@@ -15,13 +15,13 @@ namespace kT
     }
 
     template< typename PointT, typename TimeT >
-    BezierCurve::~BezierCurve()
+    KT_TEMPLATE_API BezierCurve::~BezierCurve()
     {
         delete[] myShadow;
     }
 
     template< typename PointT, typename TimeT >
-    void BezierCurve::SetControlPoints( const std::vector< PointT >& controlPoints )
+    void KT_TEMPLATE_API BezierCurve::SetControlPoints( const std::vector< PointT >& controlPoints )
     {
         if( myShadow != 0 )
             delete[] myShadow;
@@ -33,7 +33,7 @@ namespace kT
     }
 
     template< typename PointT, typename TimeT >
-    PointT BezierCurve::GetPoint( TimeT lambda )
+    PointT KT_TEMPLATE_API BezierCurve::GetPoint( TimeT lambda )
     {
         TimeT s = (TimeT(1) - lambda);
         TimeT d = lambda;

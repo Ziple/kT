@@ -10,7 +10,9 @@
 #include <cstring>
 #include <cmath>
 
-#include <kT/Core/Types.hpp>
+#include "../Core/Types.hpp"
+#include "../Core/Build.hpp"
+#include "../Core/Build.hpp"
 #include "Vector3.hpp"
 #include "Vector4.hpp"
 
@@ -21,7 +23,7 @@ namespace kT
      * \brief Generic class for 4x4 matrices.
      */
     template< typename T >
-    struct Matrix4
+    struct KT_TEMPLATE_API Matrix4
     {
         T _11, _12, _13, _14,
             _21, _22, _23, _24,
@@ -229,19 +231,19 @@ namespace kT
 * \brief Returns A * B.
 */
 template< typename T >
-kT::Matrix4< T > operator*( const kT::Matrix4< T >& A, const kT::Matrix4< T >& B );
+kT::Matrix4< T > KT_TEMPLATE_API operator*( const kT::Matrix4< T >& A, const kT::Matrix4< T >& B );
 
 /**
  * \brief Return the transformed vector.
  */
 template< typename T >
-kT::Vector3< T > operator*( const kT::Matrix4< T >& M, const kT::Vector3< T >& v );
+kT::Vector3< T > KT_TEMPLATE_API operator*( const kT::Matrix4< T >& M, const kT::Vector3< T >& v );
 
 /**
  * \brief Return the transformed vector.
  */
 template< typename T >
-kT::Vector4< T > operator*( const kT::Matrix4< T >& M, const kT::Vector4< T >& v );
+kT::Vector4< T > KT_TEMPLATE_API operator*( const kT::Matrix4< T >& M, const kT::Vector4< T >& v );
 
 #include "Matrix4.inl"
 

@@ -4,25 +4,25 @@
 namespace kT
 {
     template< typename T >
-    Matrix3< T >::Matrix3()
+    KT_TEMPLATE_API Matrix3< T >::Matrix3()
     {
     }
 
     template< typename T >
-    Matrix3< T >::Matrix3( const Matrix3< T >& other )
+    KT_TEMPLATE_API Matrix3< T >::Matrix3( const Matrix3< T >& other )
     {
         memcpy( this, &other._11, sizeof(Matrix3< T >) );
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::operator=( const Matrix3< T >& other )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::operator=( const Matrix3< T >& other )
     {
         memcpy( this, &other._11, sizeof(Matrix3< T >) );
         return *this;
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::Transpose()
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::Transpose()
     {
         T swap;
 
@@ -42,14 +42,14 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T > Matrix3< T >::GetTransposed() const
+    Matrix3< T > KT_TEMPLATE_API Matrix3< T >::GetTransposed() const
     {
         Matrix3< T > r( this );
         return r.Transpose();
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::LoadIdentity()
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::LoadIdentity()
     {
         _11 = _22 = _33 = T(1);
         _12 = _13 = _21 = _23 = _31 = _32 = T(0);
@@ -57,7 +57,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::BuildScaling( const Vector3< T >& scale )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::BuildScaling( const Vector3< T >& scale )
     {
         _11 = scale.x;
         _22 = scale.y;
@@ -69,7 +69,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::Scale( const Vector3< T >& scale )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::Scale( const Vector3< T >& scale )
     {
         _11 *= scale.x;
         _21 *= scale.x;
@@ -87,14 +87,14 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T > Matrix3< T >::GetScaled( const Vector3< T >& scale ) const
+    Matrix3< T > KT_TEMPLATE_API Matrix3< T >::GetScaled( const Vector3< T >& scale ) const
     {
         Matrix3 r( this );
         return r.Scale( scale );
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::BuildRotationX( const T& a )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::BuildRotationX( const T& a )
     {
         T c = std::cos( a );
         T s = std::sin( a );
@@ -111,7 +111,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::BuildRotationY( const T& a )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::BuildRotationY( const T& a )
     {
         T c = std::cos( a );
         T s = std::sin( a );
@@ -128,7 +128,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::BuildRotationZ( const T& a )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::BuildRotationZ( const T& a )
     {
         T c = std::cos( a );
         T s = std::sin( a );
@@ -145,7 +145,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::BuildRotation( const Vector3< T >& a )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::BuildRotation( const Vector3< T >& a )
     {
         float A       = cos(a.x);
         float B       = sin(a.x);
@@ -171,7 +171,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::RotateX( const T& a )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::RotateX( const T& a )
     {
         Matrix3< T > temp;
         temp.BuildRotationX(a);
@@ -181,7 +181,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::RotateY( const T& a )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::RotateY( const T& a )
     {
         Matrix3< T > temp;
         temp.BuildRotationY(a);
@@ -191,7 +191,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::RotateZ( const T& a )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::RotateZ( const T& a )
     {
         Matrix3< T > temp;
         temp.BuildRotationZ(a);
@@ -201,7 +201,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::Rotate( const Vector3< T >& a )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::Rotate( const Vector3< T >& a )
     {
         Matrix3< T > temp;
         temp.BuildRotation(a);
@@ -211,7 +211,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T > Matrix3< T >::GetRotatedX( const T& a ) const
+    Matrix3< T > KT_TEMPLATE_API Matrix3< T >::GetRotatedX( const T& a ) const
     {
         Matrix3< T > temp;
         temp.BuildRotationX(a);
@@ -219,7 +219,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T > Matrix3< T >::GetRotatedY( const T& a ) const
+    Matrix3< T > KT_TEMPLATE_API Matrix3< T >::GetRotatedY( const T& a ) const
     {
         Matrix3< T > temp;
         temp.BuildRotationY(a);
@@ -227,7 +227,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T > Matrix3< T >::GetRotatedZ( const T& a ) const
+    Matrix3< T > KT_TEMPLATE_API Matrix3< T >::GetRotatedZ( const T& a ) const
     {
         Matrix3< T > temp;
         temp.BuildRotationZ(a);
@@ -235,7 +235,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T > Matrix3< T >::GetRotated( const Vector3< T >& a ) const
+    Matrix3< T > KT_TEMPLATE_API Matrix3< T >::GetRotated( const Vector3< T >& a ) const
     {
         Matrix3< T > temp;
         temp.BuildRotation(a);
@@ -243,7 +243,7 @@ namespace kT
     }
 
     template< typename T >
-    Matrix3< T >& Matrix3< T >::operator*=( const Matrix3< T >& other )
+    KT_TEMPLATE_API Matrix3< T >& Matrix3< T >::operator*=( const Matrix3< T >& other )
     {
         Matrix3& t = *this;
         *this = other * t;
@@ -252,7 +252,7 @@ namespace kT
 }
 
 template< typename T >
-kT::Matrix3< T > operator*( const kT::Matrix3< T >& A, const kT::Matrix3< T >& B )
+kT::Matrix3< T > KT_TEMPLATE_API operator*( const kT::Matrix3< T >& A, const kT::Matrix3< T >& B )
 {
     kT::Matrix3< T > r;
 
