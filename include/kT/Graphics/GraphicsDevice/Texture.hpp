@@ -93,6 +93,7 @@ namespace kT
             Texture(
 				Type textureType,
 				Usage textureUsage,
+                Dimension dimension,
 				PixelFormat::Format pixelFormat,
 				Uint32 width,
 				Uint32 height,
@@ -101,6 +102,7 @@ namespace kT
                       ):
              myTextureType( textureType ),
              myTextureUsage( textureUsage ),
+             myDimension( dimension ),
              myPixelFormat( pixelFormat ),
              myWidth( width ),
              myHeight( height ),
@@ -143,7 +145,7 @@ namespace kT
              * \brief Retrives the number of faces composing the texture.
              * \return 6 for cubemaps textures, 1 for the others.
              */
-            inline Uint32 GetNumberOfFaces() const { return myTextureType == TextureCubeMap ? 6 : 1 ;};
+            inline Uint32 GetNumberOfFaces() const { return myDimension == TextureCubeMap ? 6 : 1 ;};
 
             /**
              * \brief Returns the number of mipmaps for the texture.
@@ -159,6 +161,7 @@ namespace kT
 
             Type myTextureType;
             Usage myTextureUsage;
+            Dimension myDimension;
             PixelFormat::Format myPixelFormat;
             Uint32 myWidth, myHeight, myDepth;
             Uint32 myNumMipMaps;

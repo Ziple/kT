@@ -3,6 +3,8 @@
 
 #include <kT/Core/File.hpp>
 
+#include <cstring>
+
 namespace kT
 {
     KT_API OGL3Shader* OGL3Shader::LoadFromFile(

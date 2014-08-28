@@ -9,6 +9,7 @@
 
 #include <cassert>
 #include <cstring>
+#include <cstddef>
 
 namespace kT
 {
@@ -162,10 +163,10 @@ namespace kT
                     elements[i].type,
                     GL_FALSE,
                     myStrides[ elements[i].inputSlot ],
-                    (void*)( myOffsets[ elements[i].inputSlot ] + elements[i].offset ) )
+                    (void*)( size_t(myOffsets[ elements[i].inputSlot ] + elements[i].offset )) )
                 );
 
-                if( elements[i].inputClass == kT::InputElementClass::PerInstance )
+                if( elements[i].inputClass == kT::PerInstance )
                     ktOGL3Check( glVertexAttribDivisorARB( elements[i].attribIndex, elements[i].stepRate ) );
             }else{
                 ktOGL3Check(

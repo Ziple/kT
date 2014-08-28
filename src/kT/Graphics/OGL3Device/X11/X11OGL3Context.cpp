@@ -59,7 +59,7 @@ namespace kT
 
     void KT_API X11OGL3Context::LimitFramerate( bool limit )
     {
-        kTOGL3Check( glXSwapIntervalSGI( limit ? 1 : 0) );
+        ktOGL3Check( glXSwapIntervalSGI( limit ? 1 : 0) );
     }
 
     bool KT_API X11OGL3Context::IsCurrent() const
