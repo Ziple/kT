@@ -30,6 +30,8 @@ namespace kT
             const Vector3f32& maxv = Vector3f32(0.0f,0.0f,0.0f)
             );
 
+        bool IsEmpty() const;
+
         Vector3f32 Center() const;
 
         Vector3f32 Diagonal() const;
@@ -44,6 +46,13 @@ namespace kT
 
         bool IsIn( const Vector3f32& v ) const;
 
+        bool FastIsXIn( float x ) const;
+
+        bool FastIsYIn( float y ) const;
+
+        bool FastIsZIn( float z ) const;
+
+        bool FastIsIn( const Vector3f32& v ) const;
     };
 }
 

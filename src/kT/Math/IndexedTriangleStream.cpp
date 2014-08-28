@@ -31,7 +31,7 @@ namespace kT
 
     size_t KT_API IndexedTriangleStream::Size() const
     {
-        return myIndices.size() / 3;
+        return myNumIndices / 3;
     }
 
     Vector3f32 KT_API IndexedTriangleStream::Min( size_t start, size_t end ) const
@@ -45,8 +45,8 @@ namespace kT
 
         for( size_t i = start; i < end; i++ ){
             const Vector4f32& A = myVertices[ myIndices[ 3 * i + 0 ] ];
-            const Vector4f32& B = myVertices[ myIndices[ 3 * i + 0 ] ];
-            const Vector4f32& C = myVertices[ myIndices[ 3 * i + 0 ] ];
+            const Vector4f32& B = myVertices[ myIndices[ 3 * i + 1 ] ];
+            const Vector4f32& C = myVertices[ myIndices[ 3 * i + 2 ] ];
 
             Vector3f32 A3( A.x, A.y, A.z );
             Vector3f32 B3( B.x, B.y, B.z );
@@ -71,8 +71,8 @@ namespace kT
 
         for( size_t i = start; i < end; i++ ){
             const Vector4f32& A = myVertices[ myIndices[ 3 * i + 0 ] ];
-            const Vector4f32& B = myVertices[ myIndices[ 3 * i + 0 ] ];
-            const Vector4f32& C = myVertices[ myIndices[ 3 * i + 0 ] ];
+            const Vector4f32& B = myVertices[ myIndices[ 3 * i + 1 ] ];
+            const Vector4f32& C = myVertices[ myIndices[ 3 * i + 2 ] ];
 
             Vector3f32 A3( A.x, A.y, A.z );
             Vector3f32 B3( B.x, B.y, B.z );

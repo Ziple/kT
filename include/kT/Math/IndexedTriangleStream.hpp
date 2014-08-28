@@ -6,7 +6,9 @@
 #include "Vector3.hpp"
 #include "Vector4.hpp"
 
+#include <cstddef>
 #include <vector>
+#include <limits>
 
 namespace kT
 {
@@ -16,11 +18,16 @@ namespace kT
 
         IndexedTriangleStream(
             std::vector<unsigned>& indices,
-            std::vector<Vector4f32>& vertices
+            std::vector<Vector4f32>& vertices,
+            size_t numIndices = std::numeric_limits<size_t>::max()
          ):
+         myNumIndices( numIndices ),
          myIndices( indices ),
          myVertices( vertices )
-        {}
+        {
+            if( numIndices > myIndices.size() )
+                numIndices = myIndices.size();
+        }
 
         /**
          * \brief Tells if the object at index is totally in the box or not.
@@ -53,6 +60,7 @@ namespace kT
 
     protected:
 
+        size_t myNumIndices;
         std::vector<unsigned>& myIndices;
         std::vector<Vector4f32>& myVertices;
     };

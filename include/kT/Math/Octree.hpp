@@ -15,6 +15,8 @@
 
 #include <cstddef>
 #include <limits>
+#include <array>
+#include <functional>
 
 namespace kT
 {
@@ -28,17 +30,23 @@ namespace kT
     {
     public:
 
+        typedef std::function< void ( const Octree*, void* ) > OctreeVisitorLambda;
+
         Octree(
             ObjectStream& objStream,
-            size_t subdivisionLevel,
+            size_t subdivisionLevel = 0,
             ptrdiff_t start = 0,
             ptrdiff_t end = std::numeric_limits<ptrdiff_t>::max() );
 
         ~Octree();
 
-        inline void* operator new( size_t sz, void* here ) { return here ; }
+        void visit( OctreeVisitorLambda lambda, void* userData ) const;
 
-        inline void* operator new[]( size_t sz, void* here ) { return here ; }
+        ObjectStream& GetObjectStream() const { return myObjectStream; }
+
+        const AABB& GetBoundingBox() const { return myBoundingBox; }
+
+        const std::array< Octree*, 8 >& GetSubLevels() const { return mySubLevels; }
 
     protected:
 
@@ -47,7 +55,7 @@ namespace kT
         ptrdiff_t myObjectStart;
         ptrdiff_t myObjectEnd;
 
-        Octree* mySubLevels;
+        std::array< Octree*, 8 > mySubLevels;
     };
 
 }
